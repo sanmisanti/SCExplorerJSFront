@@ -1,0 +1,9 @@
+.popup-content {
+	background-color: white;
+	padding: 10px 0px 10px 0px;
+	width: 80% !important ;
+	border-color: brown !important;
+	border-width: 3px !important;
+	border-style: solid;
+	border-radius: 10px;
+}
