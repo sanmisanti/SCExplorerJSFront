@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner';
 import { ClasesContext } from '../../../Context/ClasesProvider';
-import Body from '../../../Table/Body';
+import Body from './Table/Body';
 
 const GenericosResultTable = ({ headers }) => {
 	const { clasesToShow } = useContext(ClasesContext);
@@ -16,21 +16,20 @@ const GenericosResultTable = ({ headers }) => {
 					))}
 				</tr>
 			</thead>
-			<tbody>
-				{clasesToShow.length > 0 ? (
-					<Body rows={clasesToShow} />
-				) : (
-					<tr>
-						<td colSpan={headers.length}>
-							<div className='spinner-container'>
-								<Spinner animation='border' role='status'>
-									<span className='visually-hidden'>Loading...</span>
-								</Spinner>
-							</div>
-						</td>
-					</tr>
-				)}
-			</tbody>
+
+			{clasesToShow.length > 0 ? (
+				<Body rows={clasesToShow} />
+			) : (
+				<tr>
+					<td colSpan={headers.length}>
+						<div className='spinner-container'>
+							<Spinner animation='border' role='status'>
+								<span className='visually-hidden'>Loading...</span>
+							</Spinner>
+						</div>
+					</td>
+				</tr>
+			)}
 		</table>
 	);
 };

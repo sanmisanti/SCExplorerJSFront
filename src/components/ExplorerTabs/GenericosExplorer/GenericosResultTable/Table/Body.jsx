@@ -6,7 +6,7 @@ const Body = ({ rows }) => {
 	};
 
 	return (
-		<>
+		<tbody>
 			{rows.map(rubro => (
 				<tr key={rubro.idClasificacion}>
 					<td>{rubro.idClasificacion}</td>
@@ -26,7 +26,7 @@ const Body = ({ rows }) => {
 					</td>
 				</tr>
 			))}
-		</>
+		</tbody>
 	);
 };
 
