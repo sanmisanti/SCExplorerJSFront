@@ -1,6 +1,10 @@
 import Button from 'react-bootstrap/Button';
 
 const Body = ({ rows }) => {
+	const handleClick = ({ idClasificacion }) => {
+		window.open('https://www.google.com', '_blank');
+	};
+
 	return (
 		<>
 			{rows.map(rubro => (
@@ -14,7 +18,7 @@ const Body = ({ rows }) => {
 						<Button
 							variant='outline-warning'
 							onClick={() => {
-								alert(rubro.idClasificacion);
+								handleClick({ idClasificacion: rubro.idClasificacion });
 							}}
 						>
 							Explorar

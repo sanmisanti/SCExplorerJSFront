@@ -4,6 +4,9 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import claseService from '../../services/claseService';
 import { ClasesContext } from '../Context/ClasesProvider';
+import Popup from 'reactjs-popup';
+import ABMClase from '../ABMClase/ABMClase';
+import './FormFiltros.css';
 
 const FormFiltros = () => {
 	const [filtro, setFiltro] = useState('');
@@ -63,6 +66,19 @@ const FormFiltros = () => {
 				>
 					Buscar
 				</Button>
+				<div className=' my-3 d-flex justify-content-end'>
+					<Popup
+						className='popup-content'
+						trigger={
+							<button type='button' className='btn btn-success'>
+								Add New
+							</button>
+						}
+						modal
+					>
+						<ABMClase />
+					</Popup>
+				</div>
 			</div>
 		</div>
 	);
