@@ -1,28 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import rubroService from '../../services/rubroService';
+import Container from 'react-bootstrap/Container';
+import { Form, Row, ToggleButton } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 const ABMClase = () => {
 	const [rubros, setRubros] = useState([]);
+	const [descRubros, setDescRubros] = useState([]);
 
 	useEffect(() => {
 		return () => {
-			rubroService.getAllRubros().then(rubros => setRubros(rubros));
+			rubroService.getAllRubros().then(rubros => {
+				setRubros(rubros);
+				setDescRubros(rubros.map(r => r.rubroCod + ' - ' + r.descripcion));
+			});
 		};
 	}, []);
 
 	console.log('Rubros', rubros);
+	console.log('descRubros', descRubros);
+
+	const filterBy = (rubros, state) => {
+		if (state.selected.length) {
+			return true;
+		}
+		return descRubros.toLowerCase().indexOf(state.input.toLowerCase()) > -1;
+	};
 
 	return (
-		<div className='d-flex flex-column align-items-center bk-white'>
-			<div className='d-flex flex-wrap w-100 justify-content-center'>
-				<div className='col-1 w-5'>Rubro</div>
-				<div className='col-4 w-5'>
-					<Select options={rubros} defaultValue={''} />
-				</div>
-				<div className='col-4 w-5'>gl</div>
+		<Container className='d-grid bg-danger'>
+			<div className='p-3 text-center'>
+				<h1>ABM Clase</h1>
 			</div>
-		</div>
+			<Form>
+				<Row>
+					<Form.Group>
+						<Form.Label>Rubro</Form.Label>
+						<Typeahead options={descRubros} id={'toggle-rubro'}></Typeahead>
+					</Form.Group>
+				</Row>
+			</Form>
+		</Container>
 	);
 };
 

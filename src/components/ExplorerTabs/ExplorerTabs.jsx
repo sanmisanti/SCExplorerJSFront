@@ -8,7 +8,7 @@ import { Container } from 'react-bootstrap';
 const ExplorerTabs = () => {
 	return (
 		<Container className={s.container}>
-			<Tabs defaul tActiveKey='genericos' id='mainTabs' className='mb-3'>
+			<Tabs default tactivekey='genericos' id='mainTabs' className='mb-3'>
 				<Tab eventKey='genericos' title='Genericos'>
 					<GenericosExplorerWin />
 				</Tab>

@@ -2,9 +2,11 @@ import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import Popup from 'reactjs-popup';
 
 import claseService from '../../../../services/claseService';
 import { ClasesContext } from '../../../Context/ClasesProvider';
+import ABMClase from '../../../ABMClase/ABMClase';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
@@ -39,7 +41,7 @@ const GenericosInputBox = () => {
 	return (
 		<div>
 			<h1>Busqueda de Item Generico</h1>
-			<div className='d-flex flex-row'>
+			<div className='d-flex flex-row gap-2'>
 				<FloatingLabel
 					controlId='floatingInput'
 					label='Item Genérico'
@@ -64,6 +66,23 @@ const GenericosInputBox = () => {
 				>
 					Buscar
 				</Button>
+				<Popup
+					className='w-50'
+					trigger={
+						<Button
+							className='me-100'
+							variant='warning'
+							onClick={() => {
+								filtrar();
+							}}
+						>
+							Agregar nuevo
+						</Button>
+					}
+					modal
+				>
+					<ABMClase />
+				</Popup>
 			</div>
 		</div>
 	);

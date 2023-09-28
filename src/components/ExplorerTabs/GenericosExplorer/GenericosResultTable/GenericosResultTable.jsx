@@ -20,15 +20,17 @@ const GenericosResultTable = ({ headers }) => {
 			{clasesToShow.length > 0 ? (
 				<Body rows={clasesToShow} />
 			) : (
-				<tr>
-					<td colSpan={headers.length}>
-						<div className='spinner-container'>
-							<Spinner animation='border' role='status'>
-								<span className='visually-hidden'>Loading...</span>
-							</Spinner>
-						</div>
-					</td>
-				</tr>
+				<tbody>
+					<tr>
+						<td colSpan={headers.length}>
+							<div className='spinner-container'>
+								<Spinner animation='border' role='status'>
+									<span className='visually-hidden'>Loading...</span>
+								</Spinner>
+							</div>
+						</td>
+					</tr>
+				</tbody>
 			)}
 		</table>
 	);

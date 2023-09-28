@@ -7,11 +7,9 @@ const App = () => {
 	/* console.log(Clase); */
 
 	return (
-		<body>
-			<ClasesProvider>
-				<ExplorerTabs />
-			</ClasesProvider>
-		</body>
+		<ClasesProvider>
+			<ExplorerTabs />
+		</ClasesProvider>
 	);
 };
 
