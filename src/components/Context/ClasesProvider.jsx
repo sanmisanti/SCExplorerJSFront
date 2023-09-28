@@ -8,9 +8,13 @@ export const ClasesContext = createContext();
 // Proporciona un proveedor de contexto que envuelve tu aplicación
 export const ClasesProvider = ({ children }) => {
 	const [clasesToShow, setClasesToShow] = useState([]);
+	const [pickedClaseCod, setPickedClaseCod] = useState(null);
 
 	const handleSetClasesToShow = data => {
 		setClasesToShow(data);
+	};
+	const handlePickClase = cod => {
+		setPickedClaseCod(cod);
 	};
 
 	useEffect(() => {
@@ -25,8 +29,15 @@ export const ClasesProvider = ({ children }) => {
 			});
 	}, []);
 
+	const pickedClase = {
+		cod: pickedClaseCod,
+		handler: handlePickClase,
+	};
+
 	return (
-		<ClasesContext.Provider value={{ clasesToShow, handleSetClasesToShow }}>
+		<ClasesContext.Provider
+			value={{ clasesToShow, handleSetClasesToShow, pickedClase }}
+		>
 			{children}
 		</ClasesContext.Provider>
 	);

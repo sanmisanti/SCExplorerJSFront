@@ -1,6 +1,7 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import GenericosExplorerWin from './GenericosExplorer/GenericosExplorerWin';
+import InstanciadosExplorerWin from './InstanciadosExplorer/InstanciadosExplorerWin';
 import s from './ExplorerTabs.module.scss';
 import { Container } from 'react-bootstrap';
 
@@ -12,7 +13,7 @@ const ExplorerTabs = () => {
 					<GenericosExplorerWin />
 				</Tab>
 				<Tab eventKey='instanciados' title='Instanciados'>
-					ACA Irian los instanciados
+					<InstanciadosExplorerWin />
 				</Tab>
 			</Tabs>
 		</Container>
