@@ -7,10 +7,18 @@ import Popup from 'reactjs-popup';
 import claseService from '../../../../services/claseService';
 import { ClasesContext } from '../../../Context/ClasesProvider';
 import ABMClase from '../../../ABMClase/ABMClase';
+import './GenericosInputBox.css';
+
+import { createPortal } from 'react-dom';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
 	const { handleSetClasesToShow } = useContext(ClasesContext);
+	/* 	const newWindow = window.open(
+		'',
+		'_blank',
+		'width=600,height=400,top=100,left=100'
+	); */
 
 	const filtrar = () => {
 		if (filtro === '') {
@@ -66,16 +74,18 @@ const GenericosInputBox = () => {
 				>
 					Buscar
 				</Button>
+				{/* <Button
+					className='me-100'
+					variant='warning'
+					onClick={() =>
+						window.open('http://localhost:5173/ABMClase', '_blank')
+					}
+				>
+					Agregar nuevo
+				</Button> */}
 				<Popup
-					className='w-50'
 					trigger={
-						<Button
-							className='me-100'
-							variant='warning'
-							onClick={() => {
-								filtrar();
-							}}
-						>
+						<Button className='me-100' variant='warning'>
 							Agregar nuevo
 						</Button>
 					}
