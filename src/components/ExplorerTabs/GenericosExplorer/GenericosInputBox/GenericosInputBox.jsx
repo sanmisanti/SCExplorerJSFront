@@ -2,14 +2,10 @@ import { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
-import Popup from 'reactjs-popup';
 
 import claseService from '../../../../services/claseService';
 import { ClasesContext } from '../../../Context/ClasesProvider';
-import ABMClase from '../../../ABMClase/ABMClase';
 import './GenericosInputBox.css';
-
-import { createPortal } from 'react-dom';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
@@ -74,25 +70,6 @@ const GenericosInputBox = () => {
 				>
 					Buscar
 				</Button>
-				{/* <Button
-					className='me-100'
-					variant='warning'
-					onClick={() =>
-						window.open('http://localhost:5173/ABMClase', '_blank')
-					}
-				>
-					Agregar nuevo
-				</Button> */}
-				<Popup
-					trigger={
-						<Button className='me-100' variant='warning'>
-							Agregar nuevo
-						</Button>
-					}
-					modal
-				>
-					<ABMClase />
-				</Popup>
 			</div>
 		</div>
 	);

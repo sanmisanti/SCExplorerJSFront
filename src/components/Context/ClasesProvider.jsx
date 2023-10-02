@@ -9,12 +9,17 @@ export const ClasesContext = createContext();
 export const ClasesProvider = ({ children }) => {
 	const [clasesToShow, setClasesToShow] = useState([]);
 	const [pickedClaseCod, setPickedClaseCod] = useState(null);
+	const [modoInsercion, setModoInsercion] = useState(false);
 
 	const handleSetClasesToShow = data => {
 		setClasesToShow(data);
 	};
 	const handlePickClase = cod => {
 		setPickedClaseCod(cod);
+	};
+
+	const handleChangeMode = () => {
+		setModoInsercion(!modoInsercion);
 	};
 
 	useEffect(() => {
@@ -36,7 +41,13 @@ export const ClasesProvider = ({ children }) => {
 
 	return (
 		<ClasesContext.Provider
-			value={{ clasesToShow, handleSetClasesToShow, pickedClase }}
+			value={{
+				clasesToShow,
+				handleSetClasesToShow,
+				pickedClase,
+				modoInsercion,
+				handleChangeMode,
+			}}
 		>
 			{children}
 		</ClasesContext.Provider>
