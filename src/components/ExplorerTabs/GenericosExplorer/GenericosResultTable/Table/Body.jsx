@@ -8,8 +8,8 @@ const Body = ({ rows }) => {
 	return (
 		<tbody>
 			{rows.map(rubro => (
-				<tr key={rubro.idClasificacion}>
-					<td>{rubro.idClasificacion}</td>
+				<tr key={rubro.claseCod}>
+					<td>{rubro.claseCod}</td>
 					<td>{rubro.descripcion}</td>
 					<td>{rubro.observacion}</td>
 					<td>{rubro.claseCod}</td>

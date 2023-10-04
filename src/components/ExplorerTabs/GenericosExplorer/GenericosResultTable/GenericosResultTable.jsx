@@ -21,7 +21,7 @@ const GenericosResultTable = ({ headers }) => {
 				<Body rows={clasesToShow} />
 			) : (
 				<tbody>
-					<tr>
+					<tr key={clasesToShow.id}>
 						<td colSpan={headers.length}>
 							<div className='spinner-container'>
 								<Spinner animation='border' role='status'>

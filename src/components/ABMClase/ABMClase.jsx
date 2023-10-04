@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import rubroService from '../../services/rubroService';
+import categoriaService from '../../services/categoriaService';
 import propiedadesService from '../../services/propiedadesService';
 import Container from 'react-bootstrap/Container';
 import { Button, Form, InputGroup, Row, ToggleButton } from 'react-bootstrap';
@@ -10,12 +10,12 @@ import ogDetalleService from '../../services/ogDetalleService';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 const ABMClase = () => {
-	const [rubros, setRubros] = useState([]);
+	const [categorias, setCategorias] = useState([]);
 	const [ogDetalles, setOgDetalles] = useState([]);
 	const [incisos, setIncisos] = useState([]);
 	const [principal, setPrincipal] = useState([]);
 	const [parcial, setParcial] = useState([]);
-	const [descRubros, setDescRubros] = useState([]);
+	const [descCategorias, setDescCategorias] = useState([]);
 	const [selectedRubro, setSelectedRubro] = useState();
 	const [selectedInciso, setSelectedInciso] = useState(0);
 	const [propiedades, setPropiedades] = useState([]);
@@ -27,20 +27,21 @@ const ABMClase = () => {
 
 	useEffect(() => {
 		return () => {
-			rubroService.getAllRubros().then(rubros => {
-				setRubros(rubros);
-				setDescRubros(rubros.map(r => r.descripcion));
+			categoriaService.getAllCategorias().then(categoria => {
+				setCategorias(categoria);
+				setDescCategorias(categoria.map(r => r.descripcion));
 			});
 			ogDetalleService.getAllogDetalle().then(ogDetalles => {
 				setOgDetalles(ogDetalles);
+				/* console.log('ogDetalle', ogDetalles); */
 				setIncisos(
 					ogDetalles
 						.filter(f => f.nivel === 1)
-						.map(inc => inc.codigo + ' - ' + inc.descripcion)
+						.map(inc => inc.manualCod + ' - ' + inc.descripcion)
 				);
 			});
 			propiedadesService.getAllPropiedades().then(propiedades => {
-				console.log('propiedades', propiedades);
+				/* console.log('propiedades', propiedades); */
 			});
 		};
 	}, []);
@@ -50,13 +51,15 @@ const ABMClase = () => {
 			const descInciso = selected[0].split(' - ')[1];
 			/* console.log('descInciso', descInciso); */
 			const inciso = ogDetalles.filter(p => p.descripcion === descInciso);
-			const codInciso = inciso[0].codOgDet;
+			/* console.log('inciso', inciso); */
+			const codInciso = inciso[0].manualCod;
+
 			setSelectedInciso(codInciso);
 			/* console.log('codInciso', codInciso); */
 			setPrincipal(
 				ogDetalles
-					.filter(f => f.nivel === 2 && f.codPadre === parseInt(codInciso))
-					.map(inc => inc.codigo + ' - ' + inc.descripcion)
+					.filter(f => f.nivel === 2 && f.padreCod === parseInt(codInciso))
+					.map(inc => inc.manualCod + ' - ' + inc.descripcion)
 			);
 		} else {
 			setPrincipal([]);
@@ -66,18 +69,18 @@ const ABMClase = () => {
 	const fillPParcial = selected => {
 		if (selected.length !== 0) {
 			const descPrincipal = selected[0].split(' - ')[1];
-			/* console.log('descInciso', descInciso); */
+			/* console.log('descInciso', descPrincipal); */
 			const principal = ogDetalles.filter(
 				p =>
 					p.descripcion === descPrincipal &&
-					p.codPadre === parseInt(selectedInciso)
+					p.padreCod === parseInt(selectedInciso)
 			);
-			const codPrincipal = principal[0].codOgDet;
+			const codPrincipal = principal[0].ogDetCod;
 			/* console.log('codInciso', codInciso); */
 			setParcial(
 				ogDetalles
-					.filter(f => f.nivel === 3 && f.codPadre === parseInt(codPrincipal))
-					.map(inc => inc.codigo + ' - ' + inc.descripcion)
+					.filter(f => f.nivel === 3 && f.padreCod === parseInt(codPrincipal))
+					.map(inc => inc.manualCod + ' - ' + inc.descripcion)
 			);
 		} else {
 			setParcial([]);
@@ -94,7 +97,7 @@ const ABMClase = () => {
 					<Form.Group>
 						<Form.Label>Rubro</Form.Label>
 						<Typeahead
-							options={descRubros}
+							options={descCategorias}
 							id={'toggle-rubro'}
 							onChange={selected => console.log(selected)}
 							placeholder={'Selecciona un rubro'}
