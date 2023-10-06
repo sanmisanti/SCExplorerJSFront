@@ -9,7 +9,8 @@ import './GenericosInputBox.css';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
-	const { handleSetClasesToShow } = useContext(ClasesContext);
+	const { handleSetClasesToShow, handleSetPage, page } =
+		useContext(ClasesContext);
 	/* 	const newWindow = window.open(
 		'',
 		'_blank',
@@ -42,6 +43,10 @@ const GenericosInputBox = () => {
 		setFiltro(value);
 	};
 
+	const handlePagechange = newPage => {
+		handleSetPage(newPage);
+	};
+
 	return (
 		<div>
 			<h1>Busqueda de Item Generico</h1>
@@ -69,6 +74,15 @@ const GenericosInputBox = () => {
 					}}
 				>
 					Buscar
+				</Button>
+				<Button
+					className='me-100'
+					variant='primary'
+					onClick={() => {
+						handlePagechange(page + 1);
+					}}
+				>
+					Siguiente pagina
 				</Button>
 			</div>
 		</div>
