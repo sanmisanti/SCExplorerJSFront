@@ -20,7 +20,7 @@ const TablaResultado = ({ headers }) => {
 			{clasesToShow.length > 0 ? (
 				<Body rows={clasesToShow} />
 			) : (
-				<tr>
+				<tr className='d-flex justify-content-center'>
 					<td colSpan={headers.length}>
 						<div className='spinner-container'>
 							<Spinner animation='border' role='status'>

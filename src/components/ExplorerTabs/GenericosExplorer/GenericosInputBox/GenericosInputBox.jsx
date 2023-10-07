@@ -20,9 +20,9 @@ const GenericosInputBox = () => {
 	const filtrar = () => {
 		if (filtro === '') {
 			claseService
-				.getAllClases()
+				.getAllClases(1)
 				.then(initialClases => {
-					handleSetClasesToShow(initialClases);
+					handleSetClasesToShow(initialClases.rows);
 				})
 				.catch(error => {
 					alert(error);
@@ -31,6 +31,7 @@ const GenericosInputBox = () => {
 			claseService
 				.getClasesFilter(filtro)
 				.then(initialClases => {
+					console.log('FILTTRADAS: ', initialClases);
 					handleSetClasesToShow(initialClases);
 				})
 				.catch(error => {
@@ -74,15 +75,6 @@ const GenericosInputBox = () => {
 					}}
 				>
 					Buscar
-				</Button>
-				<Button
-					className='me-100'
-					variant='primary'
-					onClick={() => {
-						handlePagechange(page + 1);
-					}}
-				>
-					Siguiente pagina
 				</Button>
 			</div>
 		</div>

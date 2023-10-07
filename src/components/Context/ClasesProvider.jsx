@@ -12,14 +12,15 @@ export const ClasesProvider = ({ children }) => {
 	const [modoInsercion, setModoInsercion] = useState(false);
 	const [page, setPage] = useState(1);
 
+	const handleSetClasesToShow = data => {
+		setClasesToShow(data);
+	};
+
 	const handleSetPage = newPage => {
 		setPage(newPage);
 		console.log('pageProvider', page);
 	};
 
-	const handleSetClasesToShow = data => {
-		setClasesToShow(data);
-	};
 	const handlePickClase = cod => {
 		setPickedClaseCod(cod);
 	};
@@ -27,18 +28,6 @@ export const ClasesProvider = ({ children }) => {
 	const handleChangeMode = () => {
 		setModoInsercion(!modoInsercion);
 	};
-
-	useEffect(() => {
-		claseService
-			.getAllClases(page)
-			.then(initialClases => {
-				setClasesToShow(initialClases);
-				/* console.log('initialClases', initialClases); */
-			})
-			.catch(error => {
-				alert(error);
-			});
-	}, []);
 
 	const pickedClase = {
 		cod: pickedClaseCod,
