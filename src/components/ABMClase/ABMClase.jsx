@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import categoriaService from '../../services/categoriaService';
+import rubrosService from '../../services/rubrosService';
 import propiedadesService from '../../services/propiedadesService';
 import Container from 'react-bootstrap/Container';
 import { Button, Form, InputGroup, Row, ToggleButton } from 'react-bootstrap';
@@ -19,6 +20,8 @@ const ABMClase = () => {
 	const [selectedRubro, setSelectedRubro] = useState();
 	const [selectedInciso, setSelectedInciso] = useState(0);
 	const [propiedades, setPropiedades] = useState([]);
+	const [rubros, setRubros] = useState([]);
+	const [subRubros, setSubRubros] = useState([]);
 
 	const TypeOptions = [
 		{ value: 151, label: 'UNIDAD' },
@@ -42,6 +45,23 @@ const ABMClase = () => {
 			});
 			propiedadesService.getAllPropiedades().then(propiedades => {
 				/* console.log('propiedades', propiedades); */
+			});
+			rubrosService.getAllRubros().then(rubros => {
+				console.log('rubros, ', rubros);
+				const data = rubros[0];
+				console.log('data', data);
+				const rubrosEconomicos = data.reduce((prev, curr) => {
+					const { rubCod, rubDesc } = curr;
+					const uniques = [...prev];
+					if (!uniques.filter(r => r.rubCod == rubCod).length != 0) {
+						uniques.push({ rubCod, rubDesc });
+					}
+					return uniques;
+				}, []);
+				setRubros(rubrosEconomicos);
+				console.log('rubrosEconomicos', rubrosEconomicos);
+				/* setRubros(rubros);
+				setSubRubros(rubros.map(r => r.subRubro)); */
 			});
 		};
 	}, []);
@@ -95,7 +115,7 @@ const ABMClase = () => {
 			<Form>
 				<Row className='w-50 pb-5'>
 					<Form.Group>
-						<Form.Label>Rubro</Form.Label>
+						<Form.Label>Categoría</Form.Label>
 						<Typeahead
 							options={descCategorias}
 							id={'toggle-rubro'}
@@ -103,6 +123,28 @@ const ABMClase = () => {
 							placeholder={'Selecciona un rubro'}
 						></Typeahead>
 					</Form.Group>
+				</Row>
+				<Row className='w-100 pb-5'>
+					<div className='d-flex flex-row gap-5'>
+						<Form.Group className='w-100'>
+							<Form.Label>Rubro</Form.Label>
+							<Typeahead
+								options={rubros.rubDesc}
+								id={'toggle-rubro'}
+								onChange={selected => console.log(selected)}
+								placeholder={'Selecciona un rubro'}
+							></Typeahead>
+						</Form.Group>
+						<Form.Group className='w-100'>
+							<Form.Label>Rubro</Form.Label>
+							<Typeahead
+								options={rubros}
+								id={'toggle-rubro'}
+								onChange={selected => console.log(selected)}
+								placeholder={'Selecciona un rubro'}
+							></Typeahead>
+						</Form.Group>
+					</div>
 				</Row>
 				<Row>
 					<Form.Label>Objeto del Gasto</Form.Label>
