@@ -22,6 +22,7 @@ const ABMClase = () => {
 	const [propiedades, setPropiedades] = useState([]);
 	const [rubros, setRubros] = useState([]);
 	const [subRubros, setSubRubros] = useState([]);
+	const [rubSubRub, setRubSubRub] = useState([]);
 
 	const TypeOptions = [
 		{ value: 151, label: 'UNIDAD' },
@@ -47,9 +48,10 @@ const ABMClase = () => {
 				/* console.log('propiedades', propiedades); */
 			});
 			rubrosService.getAllRubros().then(rubros => {
-				console.log('rubros, ', rubros);
+				/* console.log('rubros, ', rubros); */
 				const data = rubros[0];
-				console.log('data', data);
+				/* console.log('data', data); */
+				setRubSubRub(data);
 				const rubrosEconomicos = data.reduce((prev, curr) => {
 					const { rubCod, rubDesc } = curr;
 					const uniques = [...prev];
@@ -58,8 +60,10 @@ const ABMClase = () => {
 					}
 					return uniques;
 				}, []);
-				setRubros(rubrosEconomicos);
-				console.log('rubrosEconomicos', rubrosEconomicos);
+				/* console.log('rubrosEconomicos', rubrosEconomicos); */
+				const re = rubrosEconomicos.map(r => r.rubCod + ' - ' + r.rubDesc);
+				/* console.log('re', re); */
+				setRubros(re);
 				/* setRubros(rubros);
 				setSubRubros(rubros.map(r => r.subRubro)); */
 			});
@@ -107,6 +111,22 @@ const ABMClase = () => {
 		}
 	};
 
+	const handleRubroSelected = sel => {
+		console.log('SEL', sel);
+		const descRubro = sel[0].split(' - ')[1];
+		const codRubro = sel[0].split(' - ')[0];
+
+		console.log('descRubro', descRubro);
+		console.log('codRubro', codRubro);
+
+		console.log('rubSubRub', rubSubRub);
+		const subrubEco = rubSubRub.filter(r => r.rubCod.toString() === codRubro);
+
+		console.log('rubEco', subrubEco);
+
+		setSubRubros(subrubEco.map(r => r.subRubCodForShow + ' - ' + r.subRubDesc));
+	};
+
 	return (
 		<Container className='d-grid bg-light border rounded'>
 			<div className='p-3 text-center'>
@@ -119,7 +139,9 @@ const ABMClase = () => {
 						<Typeahead
 							options={descCategorias}
 							id={'toggle-rubro'}
-							onChange={selected => console.log(selected)}
+							onChange={selected => {
+								handleRubroSelected(selected);
+							}}
 							placeholder={'Selecciona un rubro'}
 						></Typeahead>
 					</Form.Group>
@@ -129,16 +151,16 @@ const ABMClase = () => {
 						<Form.Group className='w-100'>
 							<Form.Label>Rubro</Form.Label>
 							<Typeahead
-								options={rubros.rubDesc}
+								options={rubros}
 								id={'toggle-rubro'}
-								onChange={selected => console.log(selected)}
+								onChange={selected => handleRubroSelected(selected)}
 								placeholder={'Selecciona un rubro'}
 							></Typeahead>
 						</Form.Group>
 						<Form.Group className='w-100'>
 							<Form.Label>Rubro</Form.Label>
 							<Typeahead
-								options={rubros}
+								options={subRubros}
 								id={'toggle-rubro'}
 								onChange={selected => console.log(selected)}
 								placeholder={'Selecciona un rubro'}
