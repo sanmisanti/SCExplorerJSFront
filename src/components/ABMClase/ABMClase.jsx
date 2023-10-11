@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import categoriaService from '../../services/categoriaService';
 import rubrosService from '../../services/rubrosService';
@@ -27,6 +27,8 @@ const ABMClase = () => {
 	const [selectedParcial, setSelectedParcial] = useState(0);
 	const [descripcion, setDescripcion] = useState('');
 	const [observacion, setObservacion] = useState('');
+
+	const typeaheadRef = useRef(null);
 
 	useEffect(() => {
 		return () => {
@@ -98,10 +100,17 @@ const ABMClase = () => {
 	};
 
 	const handleRubroSelected = sel => {
-		setRubroSelected(sel[0]);
-		const codRubro = sel[0].value;
-		const subrubEco = rubSubRub.filter(r => r.rubCod === codRubro);
-		setSubRubros(subrubEco);
+		if (sel.length !== 0) {
+			setRubroSelected(sel[0]);
+			const codRubro = sel[0].value;
+			const subrubEco = rubSubRub.filter(r => r.rubCod === codRubro);
+			setSubRubros(subrubEco);
+		} else {
+			alert('entro');
+			setRubroSelected(0);
+			setSubRubros([]);
+			setSubRubroSelected(0);
+		}
 	};
 
 	const handleSubRubroSelected = sel => {
@@ -119,7 +128,7 @@ const ABMClase = () => {
 			<div className='p-3 text-center'>
 				<h1>ABM Clase</h1>
 			</div>
-			<Form>
+			<Form className='p-5 pt-0'>
 				<Row className='w-50 pb-5'>
 					<Form.Group>
 						<Form.Label>Categoría</Form.Label>
@@ -137,7 +146,7 @@ const ABMClase = () => {
 					</Form.Group>
 				</Row>
 				<Row className='w-100 pb-5'>
-					<div className='d-flex flex-row gap-5'>
+					<div className='d-flex flex-column gap-3'>
 						<Form.Group className='w-100'>
 							<Form.Label>Rubro</Form.Label>
 							<Typeahead
@@ -146,6 +155,7 @@ const ABMClase = () => {
 									value: r.rubCod,
 								}))}
 								id={'toggle-rubro'}
+								ref={typeaheadRef}
 								onChange={selected => handleRubroSelected(selected)}
 								placeholder={'Selecciona un Rubro'}
 							></Typeahead>
