@@ -64,7 +64,6 @@ const ABMClase = () => {
 	const fillPPrincipal = selected => {
 		if (selected.length !== 0) {
 			const codInciso = selected[0].value;
-			console.log('CODINCISO', codInciso);
 			const ogDetCod = selected[0].ogDetCod;
 			setSelectedInciso(codInciso);
 
@@ -79,8 +78,6 @@ const ABMClase = () => {
 	};
 
 	const fillPParcial = selected => {
-		console.log('selected', selected);
-		console.log('selected[0]', selected[0]);
 		if (selected.length !== 0) {
 			const codPrincipal = selected[0].value;
 			const ogDetCod = selected[0].ogDetCod;
@@ -108,7 +105,6 @@ const ABMClase = () => {
 	};
 
 	const handleSubRubroSelected = sel => {
-		console.log('sel', sel[0]);
 		setSubRubroSelected(sel[0]);
 	};
 
