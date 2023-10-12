@@ -7,9 +7,10 @@ import Button from 'react-bootstrap/Button';
 import claseService from '../../../../services/claseService';
 
 const GenericosResultTable = ({ headers }) => {
-	const { clasesToShow } = useContext(ClasesContext);
-	const { handleSetPage, page } = useContext(ClasesContext);
-	const { handleSetClasesToShow } = useContext(ClasesContext);
+	const { clasesToShow, handleSetPage, page, handleSetClasesToShow } =
+		useContext(ClasesContext);
+	/* const { handleSetPage, page } = useContext(ClasesContext); */
+	/* const { handleSetClasesToShow } = useContext(ClasesContext); */
 
 	useEffect(() => {
 		handleSetClasesToShow([]);

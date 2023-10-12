@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Select from 'react-select';
+import { useEffect, useState, useRef } from 'react';
 import categoriaService from '../../services/categoriaService';
 import rubrosService from '../../services/rubrosService';
 import propiedadesService from '../../services/propiedadesService';
 import Container from 'react-bootstrap/Container';
-import { Button, Form, InputGroup, Row, ToggleButton } from 'react-bootstrap';
+import { Button, Form, InputGroup, Row } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import ogDetalleService from '../../services/ogDetalleService';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 const ABMClase = () => {
 	const [categorias, setCategorias] = useState([]);
@@ -27,6 +25,8 @@ const ABMClase = () => {
 	const [selectedParcial, setSelectedParcial] = useState(0);
 	const [descripcion, setDescripcion] = useState('');
 	const [observacion, setObservacion] = useState('');
+	const [selectedProps, setSelectedProps] = useState([]);
+	const [props, setProps] = useState([]);
 
 	const typeaheadRef = useRef(null);
 
@@ -37,6 +37,7 @@ const ABMClase = () => {
 			});
 
 			rubrosService.getAllRubros().then(rubros => {
+				/* console.log('RUBROS', rubros); */
 				const data = rubros[0];
 
 				setRubSubRub(data);
@@ -59,6 +60,10 @@ const ABMClase = () => {
 				const OGIncisos = data.filter(f => f.nivel === 1);
 
 				setIncisos(OGIncisos);
+			});
+
+			propiedadesService.getAllPropiedades().then(data => {
+				console.log('PROPS', data);
 			});
 		};
 	}, []);
@@ -106,7 +111,6 @@ const ABMClase = () => {
 			const subrubEco = rubSubRub.filter(r => r.rubCod === codRubro);
 			setSubRubros(subrubEco);
 		} else {
-			alert('entro');
 			setRubroSelected(0);
 			setSubRubros([]);
 			setSubRubroSelected(0);
@@ -133,6 +137,7 @@ const ABMClase = () => {
 					<Form.Group>
 						<Form.Label>Categoría</Form.Label>
 						<Typeahead
+							clearButton
 							options={categorias.map(r => ({
 								label: r.categoriaCod + ' - ' + r.descripcion,
 								value: r.categoriaCod,
@@ -150,6 +155,7 @@ const ABMClase = () => {
 						<Form.Group className='w-100'>
 							<Form.Label>Rubro</Form.Label>
 							<Typeahead
+								clearButton
 								options={rubros.map(r => ({
 									label: r.rubCod + ' - ' + r.rubDesc,
 									value: r.rubCod,
@@ -163,6 +169,7 @@ const ABMClase = () => {
 						<Form.Group className='w-100'>
 							<Form.Label>SubRubro</Form.Label>
 							<Typeahead
+								clearButton
 								options={subRubros.map(r => ({
 									label: r.subRubCodForShow + ' - ' + r.subRubDesc,
 									subRubCodForShow: r.subRubCodForShow,
@@ -183,6 +190,7 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Inciso</Form.Label>
 							<Typeahead
+								clearButton
 								options={incisos.map(i => ({
 									label: i.manualCod + ' - ' + i.descripcion,
 									value: i.manualCod,
@@ -196,6 +204,7 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Principal</Form.Label>
 							<Typeahead
+								clearButton
 								options={principal.map(p => ({
 									label: p.manualCod + ' - ' + p.descripcion,
 									value: p.manualCod,
@@ -209,6 +218,7 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Parcial</Form.Label>
 							<Typeahead
+								clearButton
 								options={parcial.map(p => ({
 									label: p.manualCod + ' - ' + p.descripcion,
 									value: p.manualCod,
@@ -261,6 +271,15 @@ const ABMClase = () => {
 				</Row>
 				<Row>
 					<Form.Label>Propiedades</Form.Label>
+					<Typeahead
+						id={'toggle-props'}
+						labelKey='name'
+						multiple
+						onChange={setSelectedProps}
+						options={props}
+						placeholder='Choose several states...'
+						selected={selectedProps}
+					/>
 				</Row>
 				<Row className='d-flex flex-row-reverse'>
 					<Button
