@@ -10,10 +10,17 @@ export const ClasesProvider = ({ children }) => {
 	const [clasesToShow, setClasesToShow] = useState([]);
 	const [pickedClaseCod, setPickedClaseCod] = useState(null);
 	const [modoInsercion, setModoInsercion] = useState(false);
+	const [page, setPage] = useState(1);
 
 	const handleSetClasesToShow = data => {
 		setClasesToShow(data);
 	};
+
+	const handleSetPage = newPage => {
+		setPage(newPage);
+		console.log('pageProvider', page);
+	};
+
 	const handlePickClase = cod => {
 		setPickedClaseCod(cod);
 	};
@@ -21,18 +28,6 @@ export const ClasesProvider = ({ children }) => {
 	const handleChangeMode = () => {
 		setModoInsercion(!modoInsercion);
 	};
-
-	useEffect(() => {
-		claseService
-			.getAllClases()
-			.then(initialClases => {
-				setClasesToShow(initialClases);
-				/* console.log('initialClases', initialClases); */
-			})
-			.catch(error => {
-				alert(error);
-			});
-	}, []);
 
 	const pickedClase = {
 		cod: pickedClaseCod,
@@ -47,6 +42,8 @@ export const ClasesProvider = ({ children }) => {
 				pickedClase,
 				modoInsercion,
 				handleChangeMode,
+				handleSetPage,
+				page,
 			}}
 		>
 			{children}

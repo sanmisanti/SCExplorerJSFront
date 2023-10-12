@@ -9,7 +9,8 @@ import './GenericosInputBox.css';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
-	const { handleSetClasesToShow } = useContext(ClasesContext);
+	const { handleSetClasesToShow, handleSetPage, page } =
+		useContext(ClasesContext);
 	/* 	const newWindow = window.open(
 		'',
 		'_blank',
@@ -19,9 +20,9 @@ const GenericosInputBox = () => {
 	const filtrar = () => {
 		if (filtro === '') {
 			claseService
-				.getAllClases()
+				.getAllClases(1)
 				.then(initialClases => {
-					handleSetClasesToShow(initialClases);
+					handleSetClasesToShow(initialClases.rows);
 				})
 				.catch(error => {
 					alert(error);
@@ -30,6 +31,7 @@ const GenericosInputBox = () => {
 			claseService
 				.getClasesFilter(filtro)
 				.then(initialClases => {
+					console.log('FILTTRADAS: ', initialClases);
 					handleSetClasesToShow(initialClases);
 				})
 				.catch(error => {
@@ -40,6 +42,10 @@ const GenericosInputBox = () => {
 
 	const handleChange = value => {
 		setFiltro(value);
+	};
+
+	const handlePagechange = newPage => {
+		handleSetPage(newPage);
 	};
 
 	return (

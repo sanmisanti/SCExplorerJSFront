@@ -13,7 +13,7 @@ const Body = ({ rows }) => {
 					<td>{rubro.descripcion}</td>
 					<td>{rubro.observacion}</td>
 					<td>{rubro.claseCod}</td>
-					<td>{rubro.umeCodigo}</td>
+					<td>{rubro.umeCod_unidadMedida.descripcion}</td>
 					<td>
 						<Button
 							variant='outline-warning'

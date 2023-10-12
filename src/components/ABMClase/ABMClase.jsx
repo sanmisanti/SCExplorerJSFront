@@ -1,66 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import { useEffect, useState, useRef } from 'react';
 import categoriaService from '../../services/categoriaService';
+import rubrosService from '../../services/rubrosService';
 import propiedadesService from '../../services/propiedadesService';
 import Container from 'react-bootstrap/Container';
-import { Button, Form, InputGroup, Row, ToggleButton } from 'react-bootstrap';
+import { Button, Form, InputGroup, Row } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import ogDetalleService from '../../services/ogDetalleService';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 const ABMClase = () => {
 	const [categorias, setCategorias] = useState([]);
+	const [catSelected, setCatSelected] = useState({});
+	const [rubSubRub, setRubSubRub] = useState([]);
+	const [rubros, setRubros] = useState([]);
+	const [rubroSelected, setRubroSelected] = useState({});
+	const [subRubros, setSubRubros] = useState([]);
+	const [subRubroSelected, setSubRubroSelected] = useState({});
 	const [ogDetalles, setOgDetalles] = useState([]);
 	const [incisos, setIncisos] = useState([]);
-	const [principal, setPrincipal] = useState([]);
-	const [parcial, setParcial] = useState([]);
-	const [descCategorias, setDescCategorias] = useState([]);
-	const [selectedRubro, setSelectedRubro] = useState();
 	const [selectedInciso, setSelectedInciso] = useState(0);
-	const [propiedades, setPropiedades] = useState([]);
+	const [principal, setPrincipal] = useState([]);
+	const [selectedPrincipal, setSelectedPrincipal] = useState(0);
+	const [parcial, setParcial] = useState([]);
+	const [selectedParcial, setSelectedParcial] = useState(0);
+	const [descripcion, setDescripcion] = useState('');
+	const [observacion, setObservacion] = useState('');
+	const [selectedProps, setSelectedProps] = useState([]);
+	const [props, setProps] = useState([]);
 
-	const TypeOptions = [
-		{ value: 151, label: 'UNIDAD' },
-		{ value: 176, label: 'SERVICIO' },
-	];
+	const typeaheadRef = useRef(null);
 
 	useEffect(() => {
 		return () => {
 			categoriaService.getAllCategorias().then(categoria => {
 				setCategorias(categoria);
-				setDescCategorias(categoria.map(r => r.descripcion));
 			});
-			ogDetalleService.getAllogDetalle().then(ogDetalles => {
-				setOgDetalles(ogDetalles);
-				/* console.log('ogDetalle', ogDetalles); */
-				setIncisos(
-					ogDetalles
-						.filter(f => f.nivel === 1)
-						.map(inc => inc.manualCod + ' - ' + inc.descripcion)
-				);
+
+			rubrosService.getAllRubros().then(rubros => {
+				/* console.log('RUBROS', rubros); */
+				const data = rubros[0];
+
+				setRubSubRub(data);
+
+				const rubrosEconomicos = data.reduce((prev, curr) => {
+					const { rubCod, rubDesc } = curr;
+					const uniques = [...prev];
+					if (!uniques.filter(r => r.rubCod == rubCod).length != 0) {
+						uniques.push({ rubCod, rubDesc });
+					}
+					return uniques;
+				}, []);
+
+				setRubros(rubrosEconomicos);
 			});
-			propiedadesService.getAllPropiedades().then(propiedades => {
-				/* console.log('propiedades', propiedades); */
+
+			ogDetalleService.getAllogDetalle().then(data => {
+				setOgDetalles(data);
+
+				const OGIncisos = data.filter(f => f.nivel === 1);
+
+				setIncisos(OGIncisos);
+			});
+
+			propiedadesService.getAllPropiedades().then(data => {
+				console.log('PROPS', data);
 			});
 		};
 	}, []);
 
 	const fillPPrincipal = selected => {
 		if (selected.length !== 0) {
-			const descInciso = selected[0].split(' - ')[1];
-			/* console.log('descInciso', descInciso); */
-			const inciso = ogDetalles.filter(p => p.descripcion === descInciso);
-			/* console.log('inciso', inciso); */
-			const codInciso = inciso[0].manualCod;
-
+			const codInciso = selected[0].value;
+			const ogDetCod = selected[0].ogDetCod;
 			setSelectedInciso(codInciso);
-			/* console.log('codInciso', codInciso); */
-			setPrincipal(
-				ogDetalles
-					.filter(f => f.nivel === 2 && f.padreCod === parseInt(codInciso))
-					.map(inc => inc.manualCod + ' - ' + inc.descripcion)
+
+			const principal = ogDetalles.filter(
+				p => p.nivel === 2 && p.padreCod === ogDetCod
 			);
+
+			setPrincipal(principal);
 		} else {
 			setPrincipal([]);
 		}
@@ -68,23 +86,45 @@ const ABMClase = () => {
 
 	const fillPParcial = selected => {
 		if (selected.length !== 0) {
-			const descPrincipal = selected[0].split(' - ')[1];
-			/* console.log('descInciso', descPrincipal); */
-			const principal = ogDetalles.filter(
-				p =>
-					p.descripcion === descPrincipal &&
-					p.padreCod === parseInt(selectedInciso)
+			const codPrincipal = selected[0].value;
+			const ogDetCod = selected[0].ogDetCod;
+			setSelectedPrincipal(codPrincipal);
+
+			const parcial = ogDetalles.filter(
+				p => p.nivel === 3 && p.padreCod === ogDetCod
 			);
-			const codPrincipal = principal[0].ogDetCod;
-			/* console.log('codInciso', codInciso); */
-			setParcial(
-				ogDetalles
-					.filter(f => f.nivel === 3 && f.padreCod === parseInt(codPrincipal))
-					.map(inc => inc.manualCod + ' - ' + inc.descripcion)
-			);
+
+			setParcial(parcial);
 		} else {
 			setParcial([]);
 		}
+	};
+
+	const handleCategoriaSelected = sel => {
+		setCatSelected(sel[0]);
+	};
+
+	const handleRubroSelected = sel => {
+		if (sel.length !== 0) {
+			setRubroSelected(sel[0]);
+			const codRubro = sel[0].value;
+			const subrubEco = rubSubRub.filter(r => r.rubCod === codRubro);
+			setSubRubros(subrubEco);
+		} else {
+			setRubroSelected(0);
+			setSubRubros([]);
+			setSubRubroSelected(0);
+		}
+	};
+
+	const handleSubRubroSelected = sel => {
+		setSubRubroSelected(sel[0]);
+	};
+
+	const handleSubmit = () => {
+		alert(
+			`Categoria: ${catSelected.value} - Rubro: ${rubroSelected.value} - SubRubroCod: ${subRubroSelected.subRubCod} - subRubCodForShow: ${subRubroSelected.subRubCodForShow} - Inciso: ${selectedInciso} - Principal: ${selectedPrincipal} - Parcial: ${selectedParcial}`
+		);
 	};
 
 	return (
@@ -92,17 +132,55 @@ const ABMClase = () => {
 			<div className='p-3 text-center'>
 				<h1>ABM Clase</h1>
 			</div>
-			<Form>
+			<Form className='p-5 pt-0'>
 				<Row className='w-50 pb-5'>
 					<Form.Group>
-						<Form.Label>Rubro</Form.Label>
+						<Form.Label>Categoría</Form.Label>
 						<Typeahead
-							options={descCategorias}
+							clearButton
+							options={categorias.map(r => ({
+								label: r.categoriaCod + ' - ' + r.descripcion,
+								value: r.categoriaCod,
+							}))}
 							id={'toggle-rubro'}
-							onChange={selected => console.log(selected)}
+							onChange={selected => {
+								handleCategoriaSelected(selected);
+							}}
 							placeholder={'Selecciona un rubro'}
 						></Typeahead>
 					</Form.Group>
+				</Row>
+				<Row className='w-100 pb-5'>
+					<div className='d-flex flex-column gap-3'>
+						<Form.Group className='w-100'>
+							<Form.Label>Rubro</Form.Label>
+							<Typeahead
+								clearButton
+								options={rubros.map(r => ({
+									label: r.rubCod + ' - ' + r.rubDesc,
+									value: r.rubCod,
+								}))}
+								id={'toggle-rubro'}
+								ref={typeaheadRef}
+								onChange={selected => handleRubroSelected(selected)}
+								placeholder={'Selecciona un Rubro'}
+							></Typeahead>
+						</Form.Group>
+						<Form.Group className='w-100'>
+							<Form.Label>SubRubro</Form.Label>
+							<Typeahead
+								clearButton
+								options={subRubros.map(r => ({
+									label: r.subRubCodForShow + ' - ' + r.subRubDesc,
+									subRubCodForShow: r.subRubCodForShow,
+									subRubCod: r.subRubCod,
+								}))}
+								id={'toggle-subrubro'}
+								onChange={selected => handleSubRubroSelected(selected)}
+								placeholder={'Selecciona un Subrubro'}
+							></Typeahead>
+						</Form.Group>
+					</div>
 				</Row>
 				<Row>
 					<Form.Label>Objeto del Gasto</Form.Label>
@@ -112,7 +190,12 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Inciso</Form.Label>
 							<Typeahead
-								options={incisos}
+								clearButton
+								options={incisos.map(i => ({
+									label: i.manualCod + ' - ' + i.descripcion,
+									value: i.manualCod,
+									ogDetCod: i.ogDetCod,
+								}))}
 								id={'toggle-incisos'}
 								onChange={selected => fillPPrincipal(selected)}
 								placeholder={'Selecciona un inciso'}
@@ -121,7 +204,12 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Principal</Form.Label>
 							<Typeahead
-								options={principal}
+								clearButton
+								options={principal.map(p => ({
+									label: p.manualCod + ' - ' + p.descripcion,
+									value: p.manualCod,
+									ogDetCod: p.ogDetCod,
+								}))}
 								id={'toggle-principal'}
 								onChange={selected => fillPParcial(selected)}
 								placeholder={'Selecciona un inciso'}
@@ -130,21 +218,34 @@ const ABMClase = () => {
 						<Form.Group className='flex-grow-1'>
 							<Form.Label>Parcial</Form.Label>
 							<Typeahead
-								options={parcial}
+								clearButton
+								options={parcial.map(p => ({
+									label: p.manualCod + ' - ' + p.descripcion,
+									value: p.manualCod,
+									ogDetCod: p.ogDetCod,
+								}))}
 								id={'toggle-parcial'}
+								onChange={selected => setSelectedParcial(selected[0].value)}
 								placeholder={'Selecciona un inciso'}
 							></Typeahead>
 						</Form.Group>
 					</div>
 				</Row>
 				<Row className='w-25 pb-5'>
-					<Form.Label>Tipo - HARDCODEADO</Form.Label>
-					<Typeahead
-						options={TypeOptions}
-						id={'toggle-TYPE'}
-						onChange={selected => console.log(selected)}
-						placeholder={'Selecciona un tipo'}
-					></Typeahead>
+					<Form.Label>Tipo</Form.Label>
+					<InputGroup>
+						<Form.Control
+							disabled
+							className='h-500px'
+							value={
+								selectedInciso === 0
+									? ''
+									: selectedInciso === 3
+									? 'SERVICIO'
+									: 'UNIDAD'
+							}
+						/>
+					</InputGroup>
 				</Row>
 				<Row className='pb-3'>
 					<Form.Label>Descripción</Form.Label>
@@ -152,6 +253,8 @@ const ABMClase = () => {
 						<Form.Control
 							placeholder='Ingresa una descripción'
 							className='h-500px'
+							value={descripcion}
+							onChange={e => setDescripcion(e.target.value)}
 						/>
 					</InputGroup>
 				</Row>
@@ -161,14 +264,30 @@ const ABMClase = () => {
 						<Form.Control
 							placeholder='Ingresa una observacion'
 							className='h-500px'
+							value={observacion}
+							onChange={e => setObservacion(e.target.value)}
 						/>
 					</InputGroup>
 				</Row>
 				<Row>
 					<Form.Label>Propiedades</Form.Label>
+					<Typeahead
+						id={'toggle-props'}
+						labelKey='name'
+						multiple
+						onChange={setSelectedProps}
+						options={props}
+						placeholder='Choose several states...'
+						selected={selectedProps}
+					/>
 				</Row>
 				<Row className='d-flex flex-row-reverse'>
-					<Button className='w-25' variant='outline-success'>
+					<Button
+						type='submit'
+						className='w-25'
+						variant='outline-success'
+						onClick={handleSubmit}
+					>
 						Success
 					</Button>
 				</Row>
