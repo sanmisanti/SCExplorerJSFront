@@ -7,4 +7,9 @@ const getAllPropiedades = async () => {
 	return await request.then(response => response.data);
 };
 
-export default { getAllPropiedades };
+const getAllPropiedadesOrdered = async () => {
+	const request = axios.get(baseUrl + '/getAllPropiedadesOrdered');
+	return await request.then(response => response.data);
+};
+
+export default { getAllPropiedades, getAllPropiedadesOrdered };

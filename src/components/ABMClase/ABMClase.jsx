@@ -62,8 +62,18 @@ const ABMClase = () => {
 				setIncisos(OGIncisos);
 			});
 
-			propiedadesService.getAllPropiedades().then(data => {
-				console.log('PROPS', data);
+			propiedadesService.getAllPropiedadesOrdered().then(data => {
+				if (data.length > 1) {
+					console.log('data', data);
+					const props = data[0];
+					console.log('props', props);
+					setProps(props);
+				} else {
+					propiedadesService.getAllPropiedades().then(data => {
+						console.log('DATA', data);
+						setProps(data);
+					});
+				}
 			});
 		};
 	}, []);
@@ -122,8 +132,19 @@ const ABMClase = () => {
 	};
 
 	const handleSubmit = () => {
+		let propiedades = '';
+		selectedProps.forEach(p => {
+			propiedades += p.value + ' - ';
+		});
 		alert(
-			`Categoria: ${catSelected.value} - Rubro: ${rubroSelected.value} - SubRubroCod: ${subRubroSelected.subRubCod} - subRubCodForShow: ${subRubroSelected.subRubCodForShow} - Inciso: ${selectedInciso} - Principal: ${selectedPrincipal} - Parcial: ${selectedParcial}`
+			`Categoria: ${catSelected.value} \n
+			Rubro: ${rubroSelected.value} \n
+			SubRubroCod: ${subRubroSelected.subRubCod} \n
+			subRubCodForShow: ${subRubroSelected.subRubCodForShow} \n
+			Inciso: ${selectedInciso} \n
+			Principal: ${selectedPrincipal} \n
+			Parcial: ${selectedParcial} \n
+			props: ${propiedades} \n`
 		);
 	};
 
@@ -146,7 +167,7 @@ const ABMClase = () => {
 							onChange={selected => {
 								handleCategoriaSelected(selected);
 							}}
-							placeholder={'Selecciona un rubro'}
+							placeholder={'Selecciona una Categoría'}
 						></Typeahead>
 					</Form.Group>
 				</Row>
@@ -187,9 +208,10 @@ const ABMClase = () => {
 				</Row>
 				<Row className='pb-5'>
 					<div className='d-flex flex-row gap-3'>
-						<Form.Group className='flex-grow-1'>
+						<Form.Group className='flex-grow-1 w-responsive'>
 							<Form.Label>Inciso</Form.Label>
 							<Typeahead
+								className='w-responsive'
 								clearButton
 								options={incisos.map(i => ({
 									label: i.manualCod + ' - ' + i.descripcion,
@@ -225,7 +247,11 @@ const ABMClase = () => {
 									ogDetCod: p.ogDetCod,
 								}))}
 								id={'toggle-parcial'}
-								onChange={selected => setSelectedParcial(selected[0].value)}
+								onChange={selected => {
+									selected.length !== 0
+										? setSelectedParcial(selected[0].value)
+										: setSelectedParcial(0);
+								}}
 								placeholder={'Selecciona un inciso'}
 							></Typeahead>
 						</Form.Group>
@@ -269,15 +295,19 @@ const ABMClase = () => {
 						/>
 					</InputGroup>
 				</Row>
-				<Row>
+				<Row className='pb-5'>
 					<Form.Label>Propiedades</Form.Label>
 					<Typeahead
 						id={'toggle-props'}
 						labelKey='name'
+						flip
 						multiple
 						onChange={setSelectedProps}
-						options={props}
-						placeholder='Choose several states...'
+						options={props.map(p => ({
+							name: p.descripcion,
+							value: p.propiedadCod,
+						}))}
+						placeholder='Seleccionar las propiedades'
 						selected={selectedProps}
 					/>
 				</Row>
