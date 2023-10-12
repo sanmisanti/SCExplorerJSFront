@@ -23,7 +23,7 @@ const ExplorerTabs = () => {
 					}}
 				></Form.Check>
 			</Form>
-			<Tabs default tactivekey='genericos' id='mainTabs' className='mb-3'>
+			<Tabs defaultactivekey='genericos' id='mainTabs' className='mb-3'>
 				<Tab eventKey='genericos' title='Genericos'>
 					<GenericosExplorerWin />
 				</Tab>
