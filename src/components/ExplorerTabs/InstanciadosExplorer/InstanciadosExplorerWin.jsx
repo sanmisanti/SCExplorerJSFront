@@ -1,7 +1,9 @@
+import InstanciadosTopBox from './InstanciadosTopBox/InstanciadostTopBox.jsx';
 const InstanciadosExplorerWin = () => {
 	return (
-		<section className='mt-3'>
-			<h1>🔍 Items Instanciados</h1>
+		<section className=''>
+			<h1 className='mb-4 mt-3'>Items Particulares</h1>
+			<InstanciadosTopBox />
 		</section>
 	);
 };

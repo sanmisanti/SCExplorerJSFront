@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { ClasesContext } from '../../../Context/ClasesProvider';
 import Body from './Table/Body';
 import Button from 'react-bootstrap/Button';
-import claseService from '../../../../services/claseService';
+import { getAllClases } from '../../../../services/claseService';
 
 const GenericosResultTable = ({ headers }) => {
 	const { clasesToShow, handleSetPage, page, handleSetClasesToShow } =
@@ -14,16 +14,14 @@ const GenericosResultTable = ({ headers }) => {
 
 	useEffect(() => {
 		handleSetClasesToShow([]);
-		claseService
-			.getAllClases(page)
+		getAllClases(page)
 			.then(initialClases => {
 				handleSetClasesToShow(initialClases.rows);
-				console.log('initialClases', initialClases);
 			})
 			.catch(error => {
 				alert(error);
 			});
-	}, [page]);
+	}, [page, handleSetClasesToShow]);
 
 	return (
 		<>

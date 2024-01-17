@@ -24,10 +24,10 @@ const GenericosExplorerWin = () => {
 			{modoInsercion ? (
 				<ABMClase />
 			) : (
-				<section>
+				<>
 					<GenericosInputBox />
 					<GenericosResultTable headers={headers} />
-				</section>
+				</>
 			)}
 		</section>
 	);
