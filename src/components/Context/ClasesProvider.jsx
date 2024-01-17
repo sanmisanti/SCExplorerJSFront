@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
-import claseService from '../../services/claseService';
+import { createContext, useState, useCallback } from 'react';
+
 import PropTypes from 'prop-types';
 
 // Crea un contexto
@@ -8,30 +8,26 @@ export const ClasesContext = createContext();
 // Proporciona un proveedor de contexto que envuelve tu aplicación
 export const ClasesProvider = ({ children }) => {
 	const [clasesToShow, setClasesToShow] = useState([]);
-	const [pickedClaseCod, setPickedClaseCod] = useState(null);
+
 	const [modoInsercion, setModoInsercion] = useState(false);
 	const [page, setPage] = useState(1);
 
-	const handleSetClasesToShow = data => {
-		setClasesToShow(data);
-	};
+	const handleSetClasesToShow = useCallback(
+		data => {
+			setClasesToShow(data);
+		},
+		[setClasesToShow]
+	);
 
-	const handleSetPage = newPage => {
-		setPage(newPage);
-		console.log('pageProvider', page);
-	};
-
-	const handlePickClase = cod => {
-		setPickedClaseCod(cod);
-	};
+	const handleSetPage = useCallback(
+		newPage => {
+			setPage(newPage);
+		},
+		[setPage]
+	);
 
 	const handleChangeMode = () => {
 		setModoInsercion(!modoInsercion);
-	};
-
-	const pickedClase = {
-		cod: pickedClaseCod,
-		handler: handlePickClase,
 	};
 
 	return (
@@ -39,7 +35,7 @@ export const ClasesProvider = ({ children }) => {
 			value={{
 				clasesToShow,
 				handleSetClasesToShow,
-				pickedClase,
+
 				modoInsercion,
 				handleChangeMode,
 				handleSetPage,

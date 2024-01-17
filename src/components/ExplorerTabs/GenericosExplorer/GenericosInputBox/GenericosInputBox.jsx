@@ -3,7 +3,10 @@ import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
-import claseService from '../../../../services/claseService';
+import {
+	getAllClases,
+	getClasesFilter,
+} from '../../../../services/claseService';
 import { ClasesContext } from '../../../Context/ClasesProvider';
 import './GenericosInputBox.css';
 
@@ -19,8 +22,7 @@ const GenericosInputBox = () => {
 
 	const filtrar = () => {
 		if (filtro === '') {
-			claseService
-				.getAllClases(1)
+			getAllClases(1)
 				.then(initialClases => {
 					handleSetClasesToShow(initialClases.rows);
 				})
@@ -28,8 +30,7 @@ const GenericosInputBox = () => {
 					alert(error);
 				});
 		} else {
-			claseService
-				.getClasesFilter(filtro)
+			getClasesFilter(filtro)
 				.then(initialClases => {
 					console.log('FILTTRADAS: ', initialClases);
 					handleSetClasesToShow(initialClases);

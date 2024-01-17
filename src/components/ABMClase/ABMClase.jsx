@@ -31,41 +31,39 @@ const ABMClase = () => {
 	const typeaheadRef = useRef(null);
 
 	useEffect(() => {
-		return () => {
-			categoriaService.getAllCategorias().then(categoria => {
-				setCategorias(categoria);
-			});
+		categoriaService.getAllCategorias().then(categoria => {
+			setCategorias(categoria);
+		});
 
-			rubrosService.getAllRubros().then(rubros => {
-				/* console.log('RUBROS', rubros); */
-				const data = rubros[0];
+		rubrosService.getAllRubros().then(rubros => {
+			/* console.log('RUBROS', rubros); */
+			const data = rubros[0];
 
-				setRubSubRub(data);
+			setRubSubRub(data);
 
-				const rubrosEconomicos = data.reduce((prev, curr) => {
-					const { rubCod, rubDesc } = curr;
-					const uniques = [...prev];
-					if (!uniques.filter(r => r.rubCod == rubCod).length != 0) {
-						uniques.push({ rubCod, rubDesc });
-					}
-					return uniques;
-				}, []);
+			const rubrosEconomicos = data.reduce((prev, curr) => {
+				const { rubCod, rubDesc } = curr;
+				const uniques = [...prev];
+				if (!uniques.filter(r => r.rubCod == rubCod).length != 0) {
+					uniques.push({ rubCod, rubDesc });
+				}
+				return uniques;
+			}, []);
 
-				setRubros(rubrosEconomicos);
-			});
+			setRubros(rubrosEconomicos);
+		});
 
-			ogDetalleService.getAllogDetalle().then(data => {
-				setOgDetalles(data);
+		ogDetalleService.getAllogDetalle().then(data => {
+			setOgDetalles(data);
 
-				const OGIncisos = data.filter(f => f.nivel === 1);
+			const OGIncisos = data.filter(f => f.nivel === 1);
 
-				setIncisos(OGIncisos);
-			});
+			setIncisos(OGIncisos);
+		});
 
-			propiedadesService.getAllPropiedades().then(data => {
-				console.log('PROPS', data);
-			});
-		};
+		propiedadesService.getAllPropiedades().then(data => {
+			console.log('PROPS', data);
+		});
 	}, []);
 
 	const fillPPrincipal = selected => {

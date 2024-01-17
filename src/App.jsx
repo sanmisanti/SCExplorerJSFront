@@ -3,12 +3,17 @@ import './styles/index.css';
 import './components/Context/ClasesProvider.jsx';
 import ExplorerTabs from './components/ExplorerTabs/ExplorerTabs';
 import { ClasesProvider } from './components/Context/ClasesProvider.jsx';
+import { InstanciadosProvider } from './components/Context/InstanciadosProviders.jsx';
+import { TopNav } from './components/heading/navbar/TopNav';
 const App = () => {
 	/* console.log(Clase); */
 
 	return (
 		<ClasesProvider>
-			<ExplorerTabs />
+			<InstanciadosProvider>
+				<TopNav />
+				<ExplorerTabs />
+			</InstanciadosProvider>
 		</ClasesProvider>
 	);
 };
