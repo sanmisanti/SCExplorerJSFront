@@ -15,12 +15,15 @@ import { SaltaSelect } from '../../../../_Atoms/SaltaSelect.jsx';
 import './instanciadosForm.scss';
 
 const InstanciadosForm = () => {
-	const { formFiltrosValues, handlersFormChange, getFichaClaseHeaders } =
+	const { formFiltrosValues, handlersFormChange, fichaHandlers } =
 		useContext(InstanciadosContext);
+	if (formFiltrosValues == null) {
+		/*RETURN SPINNER */
+		return <div>Cargando...</div>;
+	}
 	const cantidadFiltrosSeleccionados = Object.values(formFiltrosValues).filter(
 		f => f.selected && f.type === 'select'
 	).length;
-
 	return (
 		<Stack gap={4}>
 			<Row>
@@ -41,7 +44,7 @@ const InstanciadosForm = () => {
 								name='claseCod'
 								onChange={e => {
 									handlersFormChange.inputs(e);
-									getFichaClaseHeaders(e.target.value);
+									fichaHandlers.getFichaClaseHeaders(e.target.value);
 								}}
 							/>
 						</InputGroup>

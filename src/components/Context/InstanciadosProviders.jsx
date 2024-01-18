@@ -4,7 +4,7 @@ import { useFichaData } from '../../hooks/useFichaData';
 export const InstanciadosContext = createContext();
 
 export const InstanciadosProvider = ({ children }) => {
-	const { fichaFiltrosValues, getFichaClaseHeaders } = useFichaData();
+	const { fichaFiltrosValues, fichaHandlers } = useFichaData();
 	const { formFiltrosValues, handlersFormChange } = useFormStates();
 
 	return (
@@ -13,7 +13,7 @@ export const InstanciadosProvider = ({ children }) => {
 				formFiltrosValues,
 				handlersFormChange,
 				fichaFiltrosValues,
-				getFichaClaseHeaders,
+				fichaHandlers,
 			}}
 		>
 			{children}

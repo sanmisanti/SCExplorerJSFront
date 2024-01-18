@@ -69,37 +69,39 @@ const reducer = (state, action) => {
 export const useFichaData = () => {
 	const [fichaFiltrosValues, dispatch] = useReducer(reducer, originalState);
 
-	const getFichaClaseHeaders = async claseCod => {
-		if (claseCod == '') {
+	const fichaHandlers = {
+		getFichaClaseHeaders: async claseCod => {
+			if (claseCod == '') {
+				dispatch({
+					type: acciones.SET_ERROR,
+					payload: { error: { target: 'objClase', value: false } },
+				});
+				return;
+			}
 			dispatch({
-				type: acciones.SET_ERROR,
-				payload: { error: { target: 'objClase', value: false } },
+				type: acciones.SET_LOADING,
+				payload: { loading: { target: 'objClase', value: true } },
 			});
-			return;
-		}
-		dispatch({
-			type: acciones.SET_LOADING,
-			payload: { loading: { target: 'objClase', value: true } },
-		});
 
-		const data = await getClaseByClasCod(claseCod);
+			const data = await getClaseByClasCod(claseCod);
 
-		if (!data) {
+			if (!data) {
+				dispatch({
+					type: acciones.SET_ERROR,
+					payload: { error: { target: 'objClase', value: true } },
+				});
+				return;
+			}
+
 			dispatch({
-				type: acciones.SET_ERROR,
-				payload: { error: { target: 'objClase', value: true } },
+				type: acciones.SET_OBJ_CLASE,
+				payload: { objClase: data },
 			});
-			return;
-		}
-
-		dispatch({
-			type: acciones.SET_OBJ_CLASE,
-			payload: { objClase: data },
-		});
+		},
 	};
 
 	return {
 		fichaFiltrosValues,
-		getFichaClaseHeaders,
+		fichaHandlers,
 	};
 };
