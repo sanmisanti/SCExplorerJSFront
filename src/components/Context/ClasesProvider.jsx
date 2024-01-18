@@ -35,7 +35,6 @@ export const ClasesProvider = ({ children }) => {
 			value={{
 				clasesToShow,
 				handleSetClasesToShow,
-
 				modoInsercion,
 				handleChangeMode,
 				handleSetPage,

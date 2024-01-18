@@ -28,7 +28,6 @@ export const useFormData = () => {
 			return null;
 		}
 	});
-
 	useEffect(() => {
 		if (formData === null) {
 			getFormData()

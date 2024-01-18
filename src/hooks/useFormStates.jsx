@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useMemo } from 'react';
 import { useFormData } from './useFormData.jsx';
 
 const dependientes = {
@@ -12,6 +12,12 @@ const ACTIONS_TYPE = {
 	INPUT: 'input',
 };
 const ACTIONS_REDUCER = {
+	[ACTIONS_TYPE.INITIAL]: (state, action) => {
+		const { originalOptions } = action.payload;
+		return {
+			...originalOptions,
+		};
+	},
 	[ACTIONS_TYPE.SELECT]: (state, action) => {
 		const { valAndLabel, name, formData } = action.payload;
 		const dependiente = dependientes[name];
@@ -91,11 +97,18 @@ const reducer = (state, action) => {
 export const useFormStates = () => {
 	const formData = useFormData();
 
-	const { originalOptions } = formData;
-
-	const [formFiltrosValues, dispatch] = useReducer(reducer, originalOptions);
-
+	const [formFiltrosValues, dispatch] = useReducer(
+		reducer,
+		formData == null ? null : formData.originalOptions
+	);
+	/* use the UseMemo
 	const handlersFormChange = {
+		initial: originalOptions => {
+			dispatch({
+				type: ACTIONS_TYPE.INITIAL,
+				payload: { originalOptions },
+			});
+		},
 		selects: (valAndLabel, { name }) => {
 			dispatch({
 				type: ACTIONS_TYPE.SELECT,
@@ -109,7 +122,38 @@ export const useFormStates = () => {
 				payload: { name, value },
 			});
 		},
-	};
+	};	
+	*/
+	const handlersFormChange = useMemo(
+		() => ({
+			initial: originalOptions => {
+				dispatch({
+					type: ACTIONS_TYPE.INITIAL,
+					payload: { originalOptions },
+				});
+			},
+			selects: (valAndLabel, { name }) => {
+				dispatch({
+					type: ACTIONS_TYPE.SELECT,
+					payload: { name, valAndLabel, formData },
+				});
+			},
+			inputs: ({ target }) => {
+				const { name, value } = target;
+				dispatch({
+					type: ACTIONS_TYPE.INPUT,
+					payload: { name, value },
+				});
+			},
+		}),
+		[formData]
+	);
+	useEffect(() => {
+		if (formData) {
+			const { originalOptions } = formData;
+			handlersFormChange.initial(originalOptions);
+		}
+	}, [formData, handlersFormChange]);
 
 	return { formFiltrosValues, handlersFormChange };
 };

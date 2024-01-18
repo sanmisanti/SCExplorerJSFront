@@ -18,6 +18,5 @@ export const getClaseByClasCod = async claseCod => {
 	const url = encodeURI(baseUrl + '/getClaseByClasCod/' + claseCod);
 	const request = axios.get(url);
 	const res = await request.then(response => response.data);
-	console.log(res);
 	return res;
 };
