@@ -1,12 +1,15 @@
 import { createContext, useState, useCallback } from 'react';
 
 import PropTypes from 'prop-types';
+import { useFormStates } from '../../hooks/useFormStates';
 
 // Crea un contexto
 export const ClasesContext = createContext();
 
 // Proporciona un proveedor de contexto que envuelve tu aplicación
 export const ClasesProvider = ({ children }) => {
+	const { formFiltrosValues, handlersFormChange } = useFormStates();
+
 	const [clasesToShow, setClasesToShow] = useState([]);
 
 	const [modoInsercion, setModoInsercion] = useState(false);
@@ -39,6 +42,8 @@ export const ClasesProvider = ({ children }) => {
 				handleChangeMode,
 				handleSetPage,
 				page,
+				formFiltrosValues,
+				handlersFormChange,
 			}}
 		>
 			{children}
