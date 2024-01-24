@@ -6,6 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useContext } from 'react';
 import { ClasesContext } from '../../Context/ClasesProvider';
+import InstanciadosForm from '../InstanciadosExplorer/InstanciadosTopBox/form/instanciadosForm.jsx';
+import InstanciadosResult from '../InstanciadosExplorer/InstanciadosResultTable/InstanciadosResult.jsx';
+import { Row } from 'react-bootstrap';
 
 const GenericosExplorerWin = () => {
 	const { modoInsercion } = useContext(ClasesContext);
@@ -25,8 +28,12 @@ const GenericosExplorerWin = () => {
 				<ABMClase />
 			) : (
 				<>
-					<GenericosInputBox />
-					<GenericosResultTable headers={headers} />
+					<Row>
+						<InstanciadosForm />
+					</Row>
+					<InstanciadosResult />
+					{/*<GenericosInputBox />
+					<GenericosResultTable headers={headers} /> */}
 				</>
 			)}
 		</section>
