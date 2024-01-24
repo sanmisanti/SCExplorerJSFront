@@ -1,0 +1,88 @@
+@use '/src/styles/variables.scss' as *;
+$muted: #dbdbdb;
+
+.footer {
+	background-color: $bg_secondary;
+	color: white;
+	display: flex;
+	.container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		.content {
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			align-items: center;
+			gap: 2rem;
+			padding-block: 3rem;
+			border-bottom: 1px solid #666666;
+			p {
+				margin: 0;
+			}
+			.logoContainer {
+				width: fit-content;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				p {
+					width: fit-content;
+					color: $muted;
+				}
+			}
+			.vr {
+				width: 3px;
+			}
+			.infoContainer {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: start;
+				gap: 0.2rem;
+				h5 {
+					margin-bottom: 0.5rem;
+					font-size: 1.2rem;
+					font-weight: 500;
+				}
+				.infoTitle {
+					span {
+						font-weight: 400;
+					}
+				}
+				.infoLine {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					align-items: center;
+					gap: 0.5rem;
+					span {
+						font-weight: 200;
+						font-size: 1.2rem;
+						color: wheat;
+					}
+					p {
+						font-weight: 100;
+						color: $muted;
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+}
+.logo {
+	width: 400px;
+}
+.copyright {
+	height: 20;
+	p {
+		font-weight: 100;
+		font-size: 15px;
+		color: $muted;
+		text-align: center;
+		margin-block: 1rem;
+	}
+}

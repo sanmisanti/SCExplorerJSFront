@@ -1,31 +1,42 @@
 import { useContext } from 'react';
-import { Table, Form, Stack, Spinner } from 'react-bootstrap';
+import { Form, Stack, Spinner, Button } from 'react-bootstrap';
 import { InstanciadosContext } from '../../../../Context/InstanciadosProviders';
 import s from './instanciadosFicha.module.scss';
-import { SaltaSelect } from '../../../../_Atoms/SaltaSelect.jsx';
+import FichaTable from './table/InstanciadosFichaTable.jsx';
 
 const InstanciadosFicha = () => {
-	const { fichaFiltrosValues } = useContext(InstanciadosContext);
-	const { objClase } = fichaFiltrosValues;
-	const spanAlertClassName = objClase.error
+	const {
+		fichaFiltrosHeadersValues,
+		fichaFiltrosValues,
+		filtrosValuesChangeHandlers,
+	} = useContext(InstanciadosContext);
+	const { fichaHeaders } = fichaFiltrosHeadersValues;
+	const spanAlertClassName = fichaHeaders.error
 		? s.span_ingrese_error
-		: objClase.descripcion
+		: fichaHeaders.descripcion
 		? s.span_ingrese_succes
 		: s.span_ingrese_base;
 
-	console.log(objClase);
+	const fichaHeadersLoaded =
+		fichaHeaders.descripcion && !fichaHeaders.loading && !fichaHeaders.error;
+
+	const fichaValuesReadyToLoad =
+		fichaHeadersLoaded && !fichaFiltrosValues.selectedFicha;
+	const fichaValuesLoading = fichaHeadersLoaded && fichaFiltrosValues.loading;
+	const fichaValuesLoaded =
+		fichaHeadersLoaded && fichaFiltrosValues.selectedFicha;
 
 	return (
 		<>
 			<Stack direction='horizontal' gap={3}>
 				<Form.Label>Ficha: </Form.Label>
 				<div className='mb-2'>
-					{objClase.loading ? (
+					{fichaHeaders.loading ? (
 						<Spinner animation='border' />
 					) : (
 						<span className={`${s.span_ingrese} ${spanAlertClassName}`}>
-							{objClase.descripcion ||
-								(objClase.error
+							{fichaHeaders.descripcion ||
+								(fichaHeaders.error
 									? 'Código Incorrecto'
 									: 'Ingrese un Código de Item Genérico')}
 							<span className='material-symbols-outlined'>barcode</span>
@@ -34,53 +45,26 @@ const InstanciadosFicha = () => {
 				</div>
 			</Stack>
 			<div className={`${s.tabla_container} rounded`}>
-				<Table
-					className={`${s.tabla} rounded`}
-					striped
-					bordered={false}
-					hover
-					variant=''
-				>
-					<thead>
-						<tr>
-							<th>Propiedades</th>
-							<th>Valores</th>
-						</tr>
-					</thead>
-					<tbody>
-						{!objClase.claseCod || objClase.loading || objClase.error ? (
-							<tr>
-								<td colSpan={2}>
-									Ingrese un Codigo de Item Generico para Buscar propiedades
-								</td>
-							</tr>
-						) : (
-							objClase.propiedades.map((propiedad, i) => (
-								<tr key={i}>
-									<td data-cod={propiedad.propiedadCod}>
-										{propiedad.descripcion}
-									</td>
-									<td>
-										<SaltaSelect
-											placeholder='Rubro'
-											name='rubros'
-											value={{ value: '1', label: '1' }}
-											options={[{ value: '1', label: '1' }]}
-											onChange={e => console.log(e)}
-										/>
-									</td>
-								</tr>
-							))
-						)}
-
-						{/* <tr>
-							<td>xx</td>
-							<td>
-								
-							</td>
-						</tr> */}
-					</tbody>
-				</Table>
+				{fichaValuesLoading ? (
+					<Spinner animation='border' />
+				) : fichaValuesLoaded ? (
+					<FichaTable
+						fichaHeaders={{ ...fichaHeaders }}
+						fichaFiltrosValues={{ ...fichaFiltrosValues }}
+						updateFiltrosValues={filtrosValuesChangeHandlers.update}
+					/>
+				) : fichaValuesReadyToLoad ? (
+					<Button
+						variant='primary'
+						onClick={() => filtrosValuesChangeHandlers.get(fichaHeaders)}
+					>
+						Cargar Ficha
+					</Button>
+				) : (
+					<span className={s.span_ingrese_base}>
+						Ingrese un Codigo de Item Generico para Buscar propiedades
+					</span>
+				)}
 			</div>
 		</>
 	);
