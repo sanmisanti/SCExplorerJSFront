@@ -14,7 +14,7 @@ import { SaltaSelect } from '../../../../_Atoms/SaltaSelect.jsx';
 
 import './instanciadosForm.scss';
 
-const InstanciadosForm = () => {
+const InstanciadosForm = ({ isInstanciado }) => {
 	const {
 		formFiltrosValues,
 		handlersFormChange,
@@ -30,49 +30,51 @@ const InstanciadosForm = () => {
 	).length;
 	return (
 		<Stack gap={4}>
-			<Row>
-				<Col md={5}>
-					<Form.Group
-						className='mb-sm-4 mb-md-0 formGroup'
-						controlId='codGenerico'
-					>
-						<Form.Label>Código Item Genérico</Form.Label>
-						<InputGroup>
-							<InputGroup.Text id='basic-addon1'>
-								<span className='material-symbols-outlined'>barcode</span>{' '}
-							</InputGroup.Text>
-							<Form.Control
-								type='number'
-								placeholder='xx'
-								value={formFiltrosValues.claseCod.selected}
-								name='claseCod'
-								onChange={e => {
-									handlersFormChange.inputs(e);
-									getFichaClaseHeaders(e.target.value);
-									filtrosValuesChangeHandlers.reset();
-								}}
-							/>
-						</InputGroup>
-					</Form.Group>
-				</Col>
-				<Col md={5}>
-					<Form.Group className='mb-0 formGroup' controlId='codInstanciado'>
-						<Form.Label>N° Item Particular</Form.Label>
-						<InputGroup className=''>
-							<InputGroup.Text>
-								<span className='material-symbols-outlined'>123</span>
-							</InputGroup.Text>
-							<Form.Control
-								name='numInstancia'
-								type='number'
-								placeholder='xx'
-								value={formFiltrosValues.numInstancia.selected}
-								onChange={handlersFormChange.inputs}
-							/>
-						</InputGroup>
-					</Form.Group>
-				</Col>
-			</Row>
+			{isInstanciado && (
+				<Row>
+					<Col md={5}>
+						<Form.Group
+							className='mb-sm-4 mb-md-0 formGroup'
+							controlId='codGenerico'
+						>
+							<Form.Label>Código Item Genérico</Form.Label>
+							<InputGroup>
+								<InputGroup.Text id='basic-addon1'>
+									<span className='material-symbols-outlined'>barcode</span>{' '}
+								</InputGroup.Text>
+								<Form.Control
+									type='number'
+									placeholder='xx'
+									value={formFiltrosValues.claseCod.selected}
+									name='claseCod'
+									onChange={e => {
+										handlersFormChange.inputs(e);
+										getFichaClaseHeaders(e.target.value);
+										filtrosValuesChangeHandlers.reset();
+									}}
+								/>
+							</InputGroup>
+						</Form.Group>
+					</Col>
+					<Col md={5}>
+						<Form.Group className='mb-0 formGroup' controlId='codInstanciado'>
+							<Form.Label>N° Item Particular</Form.Label>
+							<InputGroup className=''>
+								<InputGroup.Text>
+									<span className='material-symbols-outlined'>123</span>
+								</InputGroup.Text>
+								<Form.Control
+									name='numInstancia'
+									type='number'
+									placeholder='xx'
+									value={formFiltrosValues.numInstancia.selected}
+									onChange={handlersFormChange.inputs}
+								/>
+							</InputGroup>
+						</Form.Group>
+					</Col>
+				</Row>
+			)}
 
 			<Form.Group controlId='descripcion formGroup'>
 				<Form.Label>Descripcion del Item</Form.Label>

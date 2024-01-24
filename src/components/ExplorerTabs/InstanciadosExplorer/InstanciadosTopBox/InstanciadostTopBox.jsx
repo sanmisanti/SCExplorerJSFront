@@ -13,7 +13,7 @@ const InstanciadosTopBox = () => {
 			) : (
 				<Row>
 					<Col sm={12} md={6}>
-						<InstanciadosForm />
+						<InstanciadosForm isInstanciado={true} />
 					</Col>
 					<Col sm={12} md={6}>
 						<InstanciadosFicha />

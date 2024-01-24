@@ -29,7 +29,7 @@ const GenericosExplorerWin = () => {
 			) : (
 				<>
 					<Row>
-						<InstanciadosForm />
+						<InstanciadosForm isInstanciado={false} />
 					</Row>
 					<InstanciadosResult />
 					{/*<GenericosInputBox />
