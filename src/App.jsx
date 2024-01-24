@@ -5,16 +5,19 @@ import ExplorerTabs from './components/ExplorerTabs/ExplorerTabs';
 import { ClasesProvider } from './components/Context/ClasesProvider.jsx';
 import { InstanciadosProvider } from './components/Context/InstanciadosProviders.jsx';
 import { TopNav } from './components/heading/navbar/TopNav';
-const App = () => {
-	/* console.log(Clase); */
+import { Footer } from './components/Footer/Footer.jsx';
 
+const App = () => {
 	return (
-		<ClasesProvider>
-			<InstanciadosProvider>
-				<TopNav />
-				<ExplorerTabs />
-			</InstanciadosProvider>
-		</ClasesProvider>
+		<>
+			<ClasesProvider>
+				<InstanciadosProvider>
+					<TopNav />
+					<ExplorerTabs />
+				</InstanciadosProvider>
+			</ClasesProvider>
+			<Footer />
+		</>
 	);
 };
 

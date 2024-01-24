@@ -15,8 +15,12 @@ import { SaltaSelect } from '../../../../_Atoms/SaltaSelect.jsx';
 import './instanciadosForm.scss';
 
 const InstanciadosForm = () => {
-	const { formFiltrosValues, handlersFormChange, fichaHandlers } =
-		useContext(InstanciadosContext);
+	const {
+		formFiltrosValues,
+		handlersFormChange,
+		getFichaClaseHeaders,
+		filtrosValuesChangeHandlers,
+	} = useContext(InstanciadosContext);
 	if (formFiltrosValues == null) {
 		/*RETURN SPINNER */
 		return <div>Cargando...</div>;
@@ -44,7 +48,8 @@ const InstanciadosForm = () => {
 								name='claseCod'
 								onChange={e => {
 									handlersFormChange.inputs(e);
-									fichaHandlers.getFichaClaseHeaders(e.target.value);
+									getFichaClaseHeaders(e.target.value);
+									filtrosValuesChangeHandlers.reset();
 								}}
 							/>
 						</InputGroup>
@@ -90,7 +95,7 @@ const InstanciadosForm = () => {
 
 				<Accordion flush className='agrupaciones_acordeon'>
 					<Accordion.Item eventKey='0'>
-						<Accordion.Button className='py-2 px-3 ${s.agrupaciones_boton'>
+						<Accordion.Button className='py-2 px-3 agrupaciones_boton'>
 							<Stack direction='horizontal' gap={3}>
 								<span className='material-symbols-outlined '>category</span>{' '}
 								<span>Agrupaciones</span>

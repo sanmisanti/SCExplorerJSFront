@@ -36,7 +36,6 @@ const ABMClase = () => {
 		});
 
 		rubrosService.getAllRubros().then(rubros => {
-			/* console.log('RUBROS', rubros); */
 			const data = rubros[0];
 
 			setRubSubRub(data);

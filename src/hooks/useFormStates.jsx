@@ -97,33 +97,8 @@ const reducer = (state, action) => {
 export const useFormStates = () => {
 	const formData = useFormData();
 
-	const [formFiltrosValues, dispatch] = useReducer(
-		reducer,
-		formData == null ? null : formData.originalOptions
-	);
-	/* use the UseMemo
-	const handlersFormChange = {
-		initial: originalOptions => {
-			dispatch({
-				type: ACTIONS_TYPE.INITIAL,
-				payload: { originalOptions },
-			});
-		},
-		selects: (valAndLabel, { name }) => {
-			dispatch({
-				type: ACTIONS_TYPE.SELECT,
-				payload: { name, valAndLabel, formData },
-			});
-		},
-		inputs: ({ target }) => {
-			const { name, value } = target;
-			dispatch({
-				type: ACTIONS_TYPE.INPUT,
-				payload: { name, value },
-			});
-		},
-	};	
-	*/
+	const [formFiltrosValues, dispatch] = useReducer(reducer, null);
+
 	const handlersFormChange = useMemo(
 		() => ({
 			initial: originalOptions => {
