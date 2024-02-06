@@ -24,8 +24,8 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 				<tbody>
 					{itemsToRender.map((item, i) => {
 						const style = cart.find(cartItem => cartItem.id === item.id)
-							? 'align-middle text-center table-success'
-							: 'align-middle text-center table-active';
+							? 'align-middle text-center table-info'
+							: 'align-middle text-center table-light';
 						return (
 							<tr key={i} className={style} onClick={() => addToCart(item)}>
 								<td>Ok</td>

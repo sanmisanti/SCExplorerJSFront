@@ -6,7 +6,7 @@ const Cart = () => {
 	const { cart, addToCart, clearCart } = useContext(CartContext);
 
 	return (
-		<>
+		<Container>
 			<h1>Items Seleccionados</h1>
 			<Table>
 				<thead>
@@ -38,7 +38,7 @@ const Cart = () => {
 					Limpiar Carrito
 				</Button>
 			)}
-		</>
+		</Container>
 	);
 };
 

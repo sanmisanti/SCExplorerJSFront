@@ -4,12 +4,15 @@ import { Form, Stack } from 'react-bootstrap';
 import { ClasesContext } from '../../Context/ClasesProvider.jsx';
 import logo from '../titles/saltaCat.png';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../Context/CartProvider.jsx';
 
 export const TopNav = () => {
 	const { handleChangeMode } = useContext(ClasesContext);
+	const { cart } = useContext(CartContext);
+
 	return (
 		<>
-			<header className={s.navbar}>
+			<header className={`${s.navbar} sticky-top`}>
 				<Stack className='container h-100' direction='horizontal' gap={3}>
 					<Form>
 						<Form.Check
@@ -22,20 +25,25 @@ export const TopNav = () => {
 						></Form.Check>
 					</Form>
 
-					<div className='ms-auto'>
+					<div className='ms-auto d-flex align-items-center'>
 						<Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
 							<span className='material-symbols-outlined  align-middle me-3'>
 								search
 							</span>
 						</Link>
-						<Link
-							to='/cart'
-							style={{ textDecoration: 'none', color: 'inherit' }}
-						>
-							<span className='material-symbols-outlined align-middle me-5'>
-								shopping_cart
+						<div>
+							<Link
+								to='/cart'
+								style={{ textDecoration: 'none', color: 'inherit' }}
+							>
+								<span className='material-symbols-outlined align-middle'>
+									shopping_cart
+								</span>
+							</Link>
+							<span className='align-top me-5' style={{ fontSize: '10px' }}>
+								({cart.length})
 							</span>
-						</Link>
+						</div>
 					</div>
 				</Stack>
 			</header>
