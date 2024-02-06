@@ -12,7 +12,7 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 	}
 	return (
 		<>
-			<Table striped bordered hover size='sm' className='table-responsive-sm'>
+			<Table bordered hover size='sm' className='table-responsive-sm'>
 				<thead>
 					<tr className='align-middle text-center'>
 						<th className='col-1'>Estado</th>
@@ -23,9 +23,9 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 				</thead>
 				<tbody>
 					{itemsToRender.map((item, i) => {
-						const style = cart.find(item => item.id === item.id)
-							? 'align-middle text-center table-active'
-							: 'align-middle text-center table-secondary';
+						const style = cart.find(cartItem => cartItem.id === item.id)
+							? 'align-middle text-center table-success'
+							: 'align-middle text-center table-active';
 						return (
 							<tr key={i} className={style} onClick={() => addToCart(item)}>
 								<td>Ok</td>

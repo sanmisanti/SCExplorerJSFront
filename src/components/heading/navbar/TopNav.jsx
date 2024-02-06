@@ -21,7 +21,9 @@ export const TopNav = () => {
 					</Form>
 
 					<div className='ms-auto'>
-						<span>Login</span>
+						<span className='material-symbols-outlined align-middle me-5'>
+							shopping_cart
+						</span>
 					</div>
 				</Stack>
 			</header>

@@ -4,6 +4,7 @@ import GenericosExplorerWin from './GenericosExplorer/GenericosExplorerWin';
 import InstanciadosExplorerWin from './InstanciadosExplorer/InstanciadosExplorerWin';
 import s from './ExplorerTabs.module.scss';
 import { Container } from 'react-bootstrap';
+import Cart from '../Cart';
 
 const ExplorerTabs = () => {
 	return (
@@ -18,6 +19,9 @@ const ExplorerTabs = () => {
 				</Tab>
 				<Tab eventKey='particulares' title='Particulares'>
 					<InstanciadosExplorerWin />
+				</Tab>
+				<Tab eventKey='carrito' title='Carrito'>
+					<Cart />
 				</Tab>
 			</Tabs>
 		</Container>
