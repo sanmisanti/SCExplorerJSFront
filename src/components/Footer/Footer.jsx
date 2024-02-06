@@ -1,7 +1,9 @@
 import s from './Footer.module.scss';
 import { Container } from 'react-bootstrap';
 import Logo from '../../assets/logos/SALTACAT-LOGO-Inverted.png';
+import { useCart } from '../../hooks/useCart.js';
 export const Footer = () => {
+	const { cart } = useCart();
 	return (
 		<footer className={s.footer}>
 			<Container className={s.container}>
@@ -43,6 +45,7 @@ export const Footer = () => {
 						Subsecretaría de procedimientos de Contrataciones - ©{' '}
 						{new Date().getFullYear()} SALTA.CAT - Todos los derechos reservados
 					</p>
+					<p>{cart.map(item => item.id + ' - ')}</p>
 				</div>
 			</Container>
 		</footer>

@@ -3,6 +3,7 @@ import { Pagination, Dropdown, Stack } from 'react-bootstrap';
 import InstanciadosResultTable from './table/InstanciadosResultTable.jsx';
 import { useContext } from 'react';
 import { InstanciadosContext } from '../../../Context/InstanciadosProviders.jsx';
+import { CartProvider } from '../../../Context/CartProvider.jsx';
 const InstanciadosResult = () => {
 	const { instanciadosResult, handlePage } = useContext(InstanciadosContext);
 	const {

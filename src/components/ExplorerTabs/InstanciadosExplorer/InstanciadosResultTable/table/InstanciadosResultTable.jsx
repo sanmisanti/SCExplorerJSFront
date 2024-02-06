@@ -1,5 +1,8 @@
 import { Table, Button } from 'react-bootstrap';
+import { useCart } from '../../../../../hooks/useCart.js';
 const InstanciadosResultTable = ({ itemsToRender, loading }) => {
+	const { addToCart, cart } = useCart();
+
 	if (loading) {
 		return (
 			<div className='spinner-border text-primary' role='status'>
@@ -20,13 +23,16 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 				</thead>
 				<tbody>
 					{itemsToRender.map((item, i) => {
+						const style = cart.find(item => item.id === item.id)
+							? 'align-middle text-center table-active'
+							: 'align-middle text-center table-secondary';
 						return (
-							<tr key={i} className='align-middle text-center'>
+							<tr key={i} className={style} onClick={() => addToCart(item)}>
 								<td>Ok</td>
 								<td>{`${item.codClase}-${item.itemCod}`}</td>
 								<td className='text-start pl-1'>{item.descripcion}</td>
 								<td>
-									<Button variant='light'>✏️</Button>
+									<Button variant='light btn-sm'>+</Button>
 								</td>
 							</tr>
 						);
