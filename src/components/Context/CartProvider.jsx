@@ -4,6 +4,7 @@ export const CartContext = createContext();
 
 export function CartProvider({ children }) {
 	const [cart, setCart] = useState([]);
+	const [lastPage, setLastPage] = useState('genericos');
 
 	const addToCart = product => {
 		const productInCartIndex = cart.findIndex(item => item.id === product.id);
@@ -23,8 +24,14 @@ export function CartProvider({ children }) {
 		setCart([]);
 	};
 
+	const handlePageChange = page => {
+		setLastPage(page);
+	};
+
 	return (
-		<CartContext.Provider value={{ cart, addToCart, clearCart }}>
+		<CartContext.Provider
+			value={{ cart, addToCart, clearCart, handlePageChange, lastPage }}
+		>
 			{children}
 		</CartContext.Provider>
 	);

@@ -31,7 +31,7 @@ export const TopNav = () => {
 								search
 							</span>
 						</Link>
-						<div>
+						<div style={{ position: 'relative', display: 'inline-block' }}>
 							<Link
 								to='/cart'
 								style={{ textDecoration: 'none', color: 'inherit' }}
@@ -40,8 +40,17 @@ export const TopNav = () => {
 									shopping_cart
 								</span>
 							</Link>
-							<span className='align-top me-5' style={{ fontSize: '10px' }}>
-								({cart.length})
+							<span
+								className='align-top'
+								style={{
+									fontSize: '10px',
+									cursor: 'default',
+									position: 'absolute',
+									top: -5,
+									right: -5,
+								}}
+							>
+								{cart.length}
 							</span>
 						</div>
 					</div>

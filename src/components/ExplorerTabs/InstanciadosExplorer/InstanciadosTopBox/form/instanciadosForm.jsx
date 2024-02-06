@@ -13,6 +13,7 @@ import { InstanciadosContext } from '../../../../Context/InstanciadosProviders.j
 import { SaltaSelect } from '../../../../_Atoms/SaltaSelect.jsx';
 
 import './instanciadosForm.scss';
+import { CartContext } from '../../../../Context/CartProvider.jsx';
 
 const InstanciadosForm = () => {
 	const {
@@ -22,6 +23,7 @@ const InstanciadosForm = () => {
 		filtrosValuesChangeHandlers,
 		getInstanciadosByForm,
 	} = useContext(InstanciadosContext);
+	const { handlePageChange } = useContext(CartContext);
 
 	const [activesKeys, setActiveKeys] = useState({
 		og: null,
@@ -300,6 +302,7 @@ const InstanciadosForm = () => {
 				variant='primary'
 				type='button'
 				onClick={() => {
+					handlePageChange('particulares');
 					const data = Object.fromEntries(
 						Object.keys(formFiltrosValues).map(k => {
 							const { selected } = formFiltrosValues[k];

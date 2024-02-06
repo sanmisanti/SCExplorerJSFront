@@ -24,10 +24,15 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 				<tbody>
 					{itemsToRender.map((item, i) => {
 						const style = cart.find(cartItem => cartItem.id === item.id)
-							? 'align-middle text-center table-info'
+							? 'align-middle text-center table-info '
 							: 'align-middle text-center table-light';
 						return (
-							<tr key={i} className={style} onClick={() => addToCart(item)}>
+							<tr
+								key={i}
+								className={style}
+								style={{ cursor: 'pointer' }}
+								onClick={() => addToCart(item)}
+							>
 								<td>Ok</td>
 								<td>{`${item.codClase}-${item.itemCod}`}</td>
 								<td className='text-start pl-1'>{item.descripcion}</td>

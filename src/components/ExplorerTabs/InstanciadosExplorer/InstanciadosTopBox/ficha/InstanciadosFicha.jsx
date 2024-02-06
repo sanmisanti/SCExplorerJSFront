@@ -3,6 +3,7 @@ import { Form, Stack, Spinner, Button } from 'react-bootstrap';
 import { InstanciadosContext } from '../../../../Context/InstanciadosProviders';
 import s from './instanciadosFicha.module.scss';
 import FichaTable from './table/InstanciadosFichaTable.jsx';
+import { CartContext } from '../../../../Context/CartProvider.jsx';
 
 const InstanciadosFicha = () => {
 	const {
@@ -13,6 +14,9 @@ const InstanciadosFicha = () => {
 		getInstanciadosByFicha,
 		instanciadosResult,
 	} = useContext(InstanciadosContext);
+
+	const { handlePageChange } = useContext(CartContext);
+
 	if (formFiltrosValues == null) {
 		/*RETURN SPINNER */
 		return <div>Cargando...</div>;
@@ -62,12 +66,13 @@ const InstanciadosFicha = () => {
 							updateFiltrosValues={filtrosValuesChangeHandlers.update}
 						/>
 						<Button
-							onClick={() =>
+							onClick={() => {
+								handlePageChange('particulares');
 								getInstanciadosByFicha(
 									fichaHeaders.claseCod,
 									fichaFiltrosValues.potentialIteCods
-								)
-							}
+								);
+							}}
 						>
 							{instanciadosResult.loading ? (
 								<Spinner animation='border' />

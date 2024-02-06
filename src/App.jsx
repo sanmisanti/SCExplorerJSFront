@@ -9,6 +9,7 @@ import { Footer } from './components/Footer/Footer.jsx';
 import { CartProvider } from './components/Context/CartProvider.jsx';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Cart from './components/Cart.jsx';
+import { useEffect, useState } from 'react';
 
 const App = () => {
 	return (
