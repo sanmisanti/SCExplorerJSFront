@@ -3,6 +3,8 @@ import { useContext } from 'react';
 import { Form, Stack } from 'react-bootstrap';
 import { ClasesContext } from '../../Context/ClasesProvider.jsx';
 import logo from '../titles/saltaCat.png';
+import { Link } from 'react-router-dom';
+
 export const TopNav = () => {
 	const { handleChangeMode } = useContext(ClasesContext);
 	return (
@@ -21,9 +23,19 @@ export const TopNav = () => {
 					</Form>
 
 					<div className='ms-auto'>
-						<span className='material-symbols-outlined align-middle me-5'>
-							shopping_cart
-						</span>
+						<Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
+							<span className='material-symbols-outlined  align-middle me-3'>
+								search
+							</span>
+						</Link>
+						<Link
+							to='/cart'
+							style={{ textDecoration: 'none', color: 'inherit' }}
+						>
+							<span className='material-symbols-outlined align-middle me-5'>
+								shopping_cart
+							</span>
+						</Link>
 					</div>
 				</Stack>
 			</header>

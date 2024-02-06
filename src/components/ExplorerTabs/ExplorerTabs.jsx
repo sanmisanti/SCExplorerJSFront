@@ -20,9 +20,6 @@ const ExplorerTabs = () => {
 				<Tab eventKey='particulares' title='Particulares'>
 					<InstanciadosExplorerWin />
 				</Tab>
-				<Tab eventKey='carrito' title='Carrito'>
-					<Cart />
-				</Tab>
 			</Tabs>
 		</Container>
 	);
