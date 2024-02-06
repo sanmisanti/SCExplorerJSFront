@@ -9,8 +9,12 @@ export const InstanciadosProvider = ({ children }) => {
 	const { fichaFiltrosHeadersValues, getFichaClaseHeaders } = useFichaHeaders();
 	const { formFiltrosValues, handlersFormChange } = useFormStates();
 	const { fichaFiltrosValues, filtrosValuesChangeHandlers } = useFichaValues();
-	const { instanciadosResult, getInstanciadosByFicha, handlePage } =
-		useInstanciadosResult();
+	const {
+		instanciadosResult,
+		getInstanciadosByFicha,
+		handlePage,
+		getInstanciadosByForm,
+	} = useInstanciadosResult();
 	return (
 		<InstanciadosContext.Provider
 			value={{
@@ -22,6 +26,7 @@ export const InstanciadosProvider = ({ children }) => {
 				filtrosValuesChangeHandlers,
 				instanciadosResult,
 				getInstanciadosByFicha,
+				getInstanciadosByForm,
 				handlePage,
 			}}
 		>

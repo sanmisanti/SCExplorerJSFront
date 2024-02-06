@@ -20,6 +20,7 @@ const InstanciadosForm = () => {
 		handlersFormChange,
 		getFichaClaseHeaders,
 		filtrosValuesChangeHandlers,
+		getInstanciadosByForm,
 	} = useContext(InstanciadosContext);
 
 	const [activesKeys, setActiveKeys] = useState({
@@ -309,6 +310,7 @@ const InstanciadosForm = () => {
 							return [k, value];
 						})
 					);
+					getInstanciadosByForm(data);
 					console.log(data);
 				}}
 			>

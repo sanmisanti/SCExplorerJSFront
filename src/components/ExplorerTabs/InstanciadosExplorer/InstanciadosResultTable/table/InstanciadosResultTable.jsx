@@ -23,7 +23,7 @@ const InstanciadosResultTable = ({ itemsToRender, loading }) => {
 						return (
 							<tr key={i} className='align-middle text-center'>
 								<td>Ok</td>
-								<td>{`${item.id}-${item.itemCod}`}</td>
+								<td>{`${item.codClase}-${item.itemCod}`}</td>
 								<td className='text-start pl-1'>{item.descripcion}</td>
 								<td>
 									<Button variant='light'>✏️</Button>

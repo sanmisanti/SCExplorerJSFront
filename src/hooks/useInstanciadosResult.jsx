@@ -21,12 +21,15 @@ const INSTANCIADOSRESULT_ACTIONS = {
 };
 
 const INSTANCIADOSRESULT_REDUCERS = {
-	[INSTANCIADOSRESULT_ACTIONS.SET_INSTANCIADOS_RESULT]: (state, action) => ({
+	[INSTANCIADOSRESULT_ACTIONS.SET_INSTANCIADOS_RESULT]: (
+		state,
+		{ payload }
+	) => ({
 		...state,
-		itemsInstanciados: action.rows || [],
-		totalItems: action.count || 0,
-		totalPages: Math.ceil(action.payload.length / state.pageSize),
-		currentPage: action.page || 1,
+		itemsInstanciados: payload.rows || [],
+		totalItems: payload.count || 0,
+		totalPages: Math.ceil(payload.count / state.pageSize),
+		currentPage: payload.currentPage || 1,
 		loading: false,
 	}),
 	[INSTANCIADOSRESULT_ACTIONS.SET_LOADING]: (state, action) => ({
@@ -106,11 +109,12 @@ export const useInstanciadosResult = () => {
 				currentPage,
 				pageSize: instanciadosResult.pageSize,
 			};
-			const { count, rows } = await getInstanciadosByFormService(payload);
-
+			console.log(payload);
+			const resp = await getInstanciadosByFormService(payload);
+			console.log('resp', resp);
 			dispatch({
 				type: INSTANCIADOSRESULT_ACTIONS.SET_INSTANCIADOS_RESULT,
-				payload: { count, rows },
+				payload: { ...resp, currentPage },
 			});
 		} catch (error) {
 			console.log(error);
