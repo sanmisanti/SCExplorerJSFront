@@ -12,10 +12,10 @@ const InstanciadosTopBox = () => {
 				<Spinner></Spinner>
 			) : (
 				<Row>
-					<Col sm={12} md={6}>
+					<Col sm={12} md={7}>
 						<InstanciadosForm />
 					</Col>
-					<Col sm={12} md={6}>
+					<Col sm={12} md={5}>
 						<InstanciadosFicha />
 					</Col>
 				</Row>

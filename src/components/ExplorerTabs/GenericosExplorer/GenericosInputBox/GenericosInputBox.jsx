@@ -32,7 +32,6 @@ const GenericosInputBox = () => {
 		} else {
 			getClasesFilter(filtro)
 				.then(initialClases => {
-					console.log('FILTTRADAS: ', initialClases);
 					handleSetClasesToShow(initialClases);
 				})
 				.catch(error => {

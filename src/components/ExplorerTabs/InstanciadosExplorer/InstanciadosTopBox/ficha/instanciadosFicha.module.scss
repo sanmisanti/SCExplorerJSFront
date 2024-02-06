@@ -4,12 +4,14 @@
 	box-shadow: 0px 0px 5px 0.04rem rgba($color: $gris_lineas, $alpha: 0.3);
 	border-color: rgba($color: $color_saltared, $alpha: 0.1);
 	border-radius: 0.375rem;
+	padding: 1rem 1rem;
 }
 .span_ingrese {
 	font-weight: 500;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
 	span {
 		margin-left: 0.5rem;
 	}
@@ -24,4 +26,7 @@
 		opacity: 0.8;
 		color: rgb(163, 162, 162);
 	}
+}
+.btnBuscarFicha {
+	margin: auto;
 }

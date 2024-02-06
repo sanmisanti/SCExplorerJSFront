@@ -18,8 +18,6 @@ const ABMClase = () => {
 		alert(`Enviar Datos`);
 	};
 
-	console.log(formFiltrosValues);
-
 	return (
 		<Container className='d-grid bg-light border rounded'>
 			<div className='p-3 text-center'>

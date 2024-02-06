@@ -91,7 +91,7 @@ export const useFichaHeaders = () => {
 		try {
 			data = await getClaseByClasCod(fichaHeaders);
 		} catch (error) {
-			console.log(error);
+			alert(error);
 		}
 		if (!data) {
 			dispatch({

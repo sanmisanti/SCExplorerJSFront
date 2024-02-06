@@ -1,0 +1,61 @@
+@use '/src/styles/variables.scss' as *;
+
+.tabla {
+	margin: 0;
+	thead {
+		tr {
+			vertical-align: middle;
+			th {
+				height: 2rem;
+			}
+		}
+	}
+	tbody {
+		overflow-y: auto;
+		font-size: 0.85rem;
+		font-weight: 200;
+		tr {
+			border-bottom: 1px solid var(--bs-border-color);
+			vertical-align: middle;
+			.td_select {
+				padding: 4px 8px;
+			}
+		}
+	}
+}
+.headers {
+	border-width: 0px;
+}
+.tablaScrolleable {
+	border: 1px solid var(--bs-border-color);
+	max-height: 250px;
+	overflow-y: scroll;
+	overflow-clip-margin: 50px;
+	width: 100%;
+	border-radius: var(--bs-border-radius);
+	margin-bottom: 1rem;
+	&::-webkit-scrollbar {
+		width: 10px;
+	}
+	$color-fondo-scroll: #dddddd;
+	$color-pill-scroll: $color_saltared;
+	$scroll-radious: calc(var(--bs-border-radius) * 1);
+	&::-webkit-scrollbar-track {
+		border-top-right-radius: $scroll-radious;
+		border-bottom-right-radius: $scroll-radious;
+		background: $color-fondo-scroll;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: $color-pill-scroll;
+		border-radius: 16px;
+		border: 3px solid $color-fondo-scroll;
+	}
+
+	@supports (scrollbar-color: #000 #fff) {
+		body {
+			scrollbar-color: $color-pill-scroll $color-fondo-scroll;
+			scrollbar-width: thin;
+		}
+	}
+}

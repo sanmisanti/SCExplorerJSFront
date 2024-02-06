@@ -6,10 +6,17 @@ import FichaTable from './table/InstanciadosFichaTable.jsx';
 
 const InstanciadosFicha = () => {
 	const {
+		formFiltrosValues,
 		fichaFiltrosHeadersValues,
 		fichaFiltrosValues,
 		filtrosValuesChangeHandlers,
+		getInstanciadosByFicha,
+		instanciadosResult,
 	} = useContext(InstanciadosContext);
+	if (formFiltrosValues == null) {
+		/*RETURN SPINNER */
+		return <div>Cargando...</div>;
+	}
 	const { fichaHeaders } = fichaFiltrosHeadersValues;
 	const spanAlertClassName = fichaHeaders.error
 		? s.span_ingrese_error
@@ -48,13 +55,31 @@ const InstanciadosFicha = () => {
 				{fichaValuesLoading ? (
 					<Spinner animation='border' />
 				) : fichaValuesLoaded ? (
-					<FichaTable
-						fichaHeaders={{ ...fichaHeaders }}
-						fichaFiltrosValues={{ ...fichaFiltrosValues }}
-						updateFiltrosValues={filtrosValuesChangeHandlers.update}
-					/>
+					<>
+						<FichaTable
+							fichaHeaders={{ ...fichaHeaders }}
+							fichaFiltrosValues={{ ...fichaFiltrosValues }}
+							updateFiltrosValues={filtrosValuesChangeHandlers.update}
+						/>
+						<Button
+							onClick={() =>
+								getInstanciadosByFicha(
+									fichaHeaders.claseCod,
+									fichaFiltrosValues.potentialIteCods
+								)
+							}
+						>
+							{instanciadosResult.loading ? (
+								<Spinner animation='border' />
+							) : (
+								'Buscar por Valores'
+							)}
+						</Button>
+					</>
 				) : fichaValuesReadyToLoad ? (
 					<Button
+						className='align-self-end'
+						size='sm'
 						variant='primary'
 						onClick={() => filtrosValuesChangeHandlers.get(fichaHeaders)}
 					>

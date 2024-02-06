@@ -10,12 +10,14 @@ const FICHA_ACTIONS = {
 const FICHA_ACTIONS_REDUCER = {
 	[FICHA_ACTIONS.INITIAL]: (state, action) => {
 		const { fichaData } = action.payload;
-		const objOptions = getInitialOptions(fichaData);
+		const [objOptions, fullIteCods] = getInitialOptions(fichaData);
 
 		return {
 			...state,
 			selectedFicha: fichaData,
 			objOptions,
+			fullIteCods,
+			potentialIteCods: fullIteCods,
 			loading: false,
 		};
 	},
@@ -24,18 +26,21 @@ const FICHA_ACTIONS_REDUCER = {
 	},
 	[FICHA_ACTIONS.UPDATE_FICHA]: (state, action) => {
 		const { selectedFicha } = state;
-		const options = updateFichaOptions(
+		const [objOptions, potentialIteCods] = updateFichaOptions(
 			selectedFicha,
 			state.objOptions,
 			action.payload
 		);
 		return {
 			...state,
-			objOptions: options,
+			objOptions,
+			potentialIteCods:
+				potentialIteCods.length == 0 ? state.fullIteCods : potentialIteCods,
 		};
 	},
 	[FICHA_ACTIONS.SET_ERROR]: (state, action) => {
-		return { ...state, error: action.payload };
+		const { status, message } = action.payload;
+		return { ...state, error: { status, message } };
 	},
 	[FICHA_ACTIONS.RESET]: (state, action) => {
 		return { ...action.payload };
@@ -53,14 +58,20 @@ const getInitialOptions = fichaData => {
 			viableOptions: [],
 		};
 	});
+	const fullIteCods = ipvumes
+		.filter(
+			(row, index, self) =>
+				index === self.findIndex(r => r.iteCodigo === row.iteCodigo)
+		)
+		.map(row => row.iteCodigo);
+
 	buildOptions(newOptions, ipvumes, umes, vals);
-	return newOptions;
+	return [newOptions, fullIteCods];
 };
 
 const updateFichaOptions = (fichaData, objOptions, thisSelected) => {
 	const { vals, umes, ipvumes } = fichaData;
 	const { selectedPropCod, valAndLabel } = thisSelected;
-
 	let newOptions = { ...objOptions };
 	newOptions[selectedPropCod].selected = valAndLabel;
 
@@ -91,7 +102,7 @@ const updateFichaOptions = (fichaData, objOptions, thisSelected) => {
 		? filteredIPVUME
 		: ipvumes;
 	buildOptions(newOptions, IPVUMEforBuildingOptions, umes, vals);
-	return newOptions;
+	return [newOptions, potentialIteCods];
 };
 
 const buildOptions = (objOptions, ipvumes, umes, vals) => {
@@ -112,6 +123,11 @@ const buildOptions = (objOptions, ipvumes, umes, vals) => {
 			viableOptions.push(option);
 		}
 	});
+	Object.keys(objOptions).forEach(key => {
+		objOptions[key].viableOptions.sort((a, b) => {
+			return a.label >= b.label ? 1 : -1;
+		});
+	});
 	return;
 };
 
@@ -125,8 +141,11 @@ export const useFichaValues = () => {
 		selectedFicha: null,
 		options: null,
 		loading: false,
-		error: false,
+		error: { status: false, message: null },
+		potentialIteCods: null,
+		fullIteCods: null,
 	};
+
 	const [fichaFiltrosValues, dispatch] = useReducer(
 		fichaValuesReducer,
 		originalOptions
@@ -145,7 +164,7 @@ export const useFichaValues = () => {
 			try {
 				fichaData = await getFichaByClaseCod(objClase.claseCod);
 			} catch (error) {
-				console.log(error);
+				alert(error);
 			}
 			if (!fichaData) {
 				dispatch({ type: FICHA_ACTIONS.RESET, payload: originalOptions });
@@ -157,7 +176,6 @@ export const useFichaValues = () => {
 			});
 		},
 		update: (valAndLabel, { name }) => {
-			console.log;
 			dispatch({
 				type: FICHA_ACTIONS.UPDATE_FICHA,
 				payload: {

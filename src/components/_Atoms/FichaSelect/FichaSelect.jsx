@@ -47,7 +47,9 @@ export const FichaSelect = ({ ...props }) => {
 			/* 	console.log('baseStyle control', baseStyles); */
 			return {
 				...baseStyles,
-				minHeight: 24,
+				minHeight: 32,
+				maxHeight: 32,
+
 				borderColor: state.isFocused ? '#b71b24' : '#dee2e6',
 				boxShadow: state.isFocused
 					? '0px 0px 0px 1px #b71b24'
@@ -62,12 +64,22 @@ export const FichaSelect = ({ ...props }) => {
 			};
 		},
 		menu: (baseStyles, state) => {
-			/* console.log('estado Menu', state); */
+			const el = document.querySelector([`.${state.selectProps.className}`]);
+			const positions = el.getBoundingClientRect();
+			const top = positions.top + positions.height;
+			const left = positions.left;
+			const width = positions.width;
+			/* console.log('baseStyle menu', baseStyles); */
 			return {
 				...baseStyles,
-				backgroundColor: '#fff',
-				boxShadow: '0px 0px 0px 0px #b71b24',
+				boxShadow: '0px 0px 5px 0.04rem #dee2e6',
 				borderRadius: '0.375rem',
+				zIndex: 100,
+				transform: 'translate3d(0px, 0px, 0px)',
+				position: 'fixed',
+				top: top,
+				left: left,
+				width: width,
 			};
 		},
 		option: (baseStyles, state) => {

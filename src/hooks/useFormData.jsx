@@ -60,6 +60,7 @@ export const useFormData = () => {
 			rubros: {
 				selected: '',
 				type: 'select',
+				group: 'rub',
 				options: formData.rubros.map(r => ({
 					value: r.rubCod,
 					label: `${r.rubCod} - ${r.rubDesc}`,
@@ -68,11 +69,13 @@ export const useFormData = () => {
 			subrubros: {
 				selected: '',
 				type: 'select',
+				group: 'rub',
 				options: [],
 			},
 			incisos: {
 				selected: '',
 				type: 'select',
+				group: 'og',
 				options: formData.objetosGasto.map(o => ({
 					value: o.ogDetCod,
 					label: `${o.manualCod} - ${o.descripcion}`,
@@ -81,16 +84,19 @@ export const useFormData = () => {
 			principales: {
 				selected: '',
 				type: 'select',
+				group: 'og',
 				options: [],
 			},
 			parciales: {
 				selected: '',
 				type: 'select',
+				group: 'og',
 				options: [],
 			},
 			categorias: {
 				selected: '',
 				type: 'select',
+				group: 'cat',
 				options: formData.categorias.map(c => ({
 					value: c.categoriaCod,
 					label: `${c.descripcion}`,

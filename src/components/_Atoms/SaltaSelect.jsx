@@ -19,5 +19,12 @@ export const SaltaSelect = ({ ...props }) => {
 			};
 		},
 	};
-	return <Select {...props} styles={styles} isClearable={true} />;
+	return (
+		<Select
+			{...props}
+			styles={styles}
+			isClearable={true}
+			classNamePrefix={'salta-select'}
+		/>
+	);
 };

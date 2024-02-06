@@ -114,7 +114,8 @@ export const useFormStates = () => {
 				});
 			},
 			inputs: ({ target }) => {
-				const { name, value } = target;
+				let { name, value } = target;
+				value = name === 'descripcion' ? value : parseInt(value, 10);
 				dispatch({
 					type: ACTIONS_TYPE.INPUT,
 					payload: { name, value },
