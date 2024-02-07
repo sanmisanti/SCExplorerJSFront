@@ -6,7 +6,7 @@ const InstanciadosResultTable = ({ itemsToRender, loading, pageSize }) => {
 
 	return (
 		<>
-			<Table striped bordered hover size='sm' className='table-responsive-sm'>
+			<Table bordered hover size='sm' className='table-responsive-sm'>
 				<thead>
 					<tr className='align-middle text-center'>
 						<th className='col-1'>Carrito</th>
@@ -76,11 +76,16 @@ const InstanciadosResultTable = ({ itemsToRender, loading, pageSize }) => {
 									);
 								})
 						: itemsToRender.map((item, i) => {
-								const style = cart.find(item => item.id === item.id)
-									? 'align-middle text-center table-active'
-									: 'align-middle text-center table-secondary';
+								const style = cart.find(cartItem => cartItem.id === item.id)
+									? 'align-middle text-center table-info '
+									: 'align-middle text-center table-light';
 								return (
-									<tr key={i} className={style} onClick={() => addToCart(item)}>
+									<tr
+										key={i}
+										className={style}
+										style={{ cursor: 'pointer' }}
+										onClick={() => addToCart(item)}
+									>
 										<td>
 											<span className={'material-symbols-outlined ' + s.onCart}>
 												remove_shopping_cart

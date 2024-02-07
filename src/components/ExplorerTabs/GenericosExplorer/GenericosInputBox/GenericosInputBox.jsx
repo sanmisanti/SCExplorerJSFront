@@ -9,11 +9,13 @@ import {
 } from '../../../../services/claseService';
 import { ClasesContext } from '../../../Context/ClasesProvider';
 import './GenericosInputBox.css';
+import { CartContext } from '../../../Context/CartProvider';
 
 const GenericosInputBox = () => {
 	const [filtro, setFiltro] = useState('');
 	const { handleSetClasesToShow, handleSetPage, page } =
 		useContext(ClasesContext);
+	const { handlePageChange } = useContext(CartContext);
 	/* 	const newWindow = window.open(
 		'',
 		'_blank',
@@ -21,6 +23,7 @@ const GenericosInputBox = () => {
 	); */
 
 	const filtrar = () => {
+		handlePageChange('genericos');
 		if (filtro === '') {
 			getAllClases(1)
 				.then(initialClases => {
