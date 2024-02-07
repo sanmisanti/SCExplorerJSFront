@@ -20,7 +20,7 @@ const InstanciadosForm = () => {
 		handlersFormChange,
 		getFichaClaseHeaders,
 		filtrosValuesChangeHandlers,
-		getInstanciadosByForm,
+		getInstanciados,
 	} = useContext(InstanciadosContext);
 
 	const [activesKeys, setActiveKeys] = useState({
@@ -299,20 +299,7 @@ const InstanciadosForm = () => {
 				className='mt-0'
 				variant='primary'
 				type='button'
-				onClick={() => {
-					const data = Object.fromEntries(
-						Object.keys(formFiltrosValues).map(k => {
-							const { selected } = formFiltrosValues[k];
-							const value =
-								selected != null && typeof selected == 'object'
-									? selected.value
-									: selected || null;
-							return [k, value];
-						})
-					);
-					getInstanciadosByForm(data);
-					console.log(data);
-				}}
+				onClick={() => getInstanciados.form()}
 			>
 				Buscar Items
 			</Button>

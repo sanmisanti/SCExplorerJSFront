@@ -1,11 +1,13 @@
 import s from './InstanciadosResult.module.scss';
-import { Pagination, Dropdown, Stack } from 'react-bootstrap';
+import { Dropdown, Stack } from 'react-bootstrap';
 import InstanciadosResultTable from './table/InstanciadosResultTable.jsx';
 import { useContext } from 'react';
 import { InstanciadosContext } from '../../../Context/InstanciadosProviders.jsx';
 import { CartProvider } from '../../../Context/CartProvider.jsx';
+import { Paginator } from '../../../_Atoms/Pagination/Paginator.jsx';
 const InstanciadosResult = () => {
-	const { instanciadosResult, handlePage } = useContext(InstanciadosContext);
+	const { instanciadosResult, getInstanciados } =
+		useContext(InstanciadosContext);
 	const {
 		itemsInstanciados,
 		loading,
@@ -14,11 +16,9 @@ const InstanciadosResult = () => {
 		pageSize,
 		currentPage,
 	} = instanciadosResult;
-	const itemsToRender = itemsInstanciados.slice(
-		(currentPage - 1) * pageSize,
-		currentPage * pageSize
-	);
+	const itemsToRender = itemsInstanciados;
 	const hayFilas = instanciadosResult?.itemsInstanciados?.length > 0;
+
 	/* CUANDO ESTOY CAMBIANDO EL TAMAÑO DE LAS PAGINAS, TENGO QUE ACTUALIZAR TAMBIEN EL PAGINADO */
 	return (
 		<div className={`pt-3 mb-5 ${s.contenedor}`}>
@@ -35,13 +35,13 @@ const InstanciadosResult = () => {
 						<Dropdown.Toggle variant='light'>{pageSize}</Dropdown.Toggle>
 
 						<Dropdown.Menu>
-							<Dropdown.Item onClick={() => handlePage.setSize(5)}>
+							<Dropdown.Item onClick={() => getInstanciados.pageChangeSize(5)}>
 								5
 							</Dropdown.Item>
-							<Dropdown.Item onClick={() => handlePage.setSize(10)}>
+							<Dropdown.Item onClick={() => getInstanciados.pageChangeSize(10)}>
 								10
 							</Dropdown.Item>
-							<Dropdown.Item onClick={() => handlePage.setSize(50)}>
+							<Dropdown.Item onClick={() => getInstanciados.pageChangeSize(50)}>
 								50
 							</Dropdown.Item>
 						</Dropdown.Menu>
@@ -50,34 +50,22 @@ const InstanciadosResult = () => {
 				</Stack>
 			</Stack>
 
-			<div className={`mt-0 ${s.Tabla}`}>
-				{hayFilas > 0 ? (
+			<div className={`mt-0 ${s.Tabla}`} style={{ minHeight: '4rem' }}>
+				{hayFilas || loading ? (
 					<>
-						<InstanciadosResultTable {...{ itemsToRender, loading }} />
+						<InstanciadosResultTable
+							{...{ itemsToRender, loading, pageSize }}
+						/>
 						{totalPages > 1 && (
-							<Pagination>
-								<Pagination.First
-									onClick={() => handlePage.change(1)}
-									disabled={currentPage === 1}
-								/>
-								<Pagination.Prev
-									onClick={() => handlePage.change('prev')}
-									disabled={currentPage === 1}
-								/>
-								<Pagination.Item active>{currentPage}</Pagination.Item>
-								<Pagination.Next
-									onClick={() => handlePage.change('next')}
-									disabled={currentPage === totalPages}
-								/>
-								<Pagination.Last
-									onClick={() => handlePage.change(totalPages)}
-									disabled={currentPage === totalPages}
-								/>
-							</Pagination>
+							<Paginator
+								currentPage={currentPage}
+								totalPages={totalPages}
+								handlePage={move => getInstanciados.pageChange(move)}
+							/>
 						)}
 					</>
 				) : (
-					<p>No hay items</p>
+					<p>No se han encontrado resultados</p>
 				)}
 			</div>
 		</div>
