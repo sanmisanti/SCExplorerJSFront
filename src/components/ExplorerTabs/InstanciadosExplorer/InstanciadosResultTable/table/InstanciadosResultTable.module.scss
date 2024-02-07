@@ -1,0 +1,26 @@
+tr {
+	vertical-align: center;
+	text-align: center;
+}
+.edit {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 4rem;
+}
+.descripcion {
+	text-align: start;
+	padding-left: 1rem !important;
+}
+.placeholderDesc {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	min-height: 4rem;
+}
+.onCart {
+	font-size: 1.8rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

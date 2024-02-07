@@ -124,6 +124,22 @@ export const useFormStates = () => {
 		}),
 		[formData]
 	);
+	const getFiltosValues = {
+		selected: () => {
+			const data = Object.fromEntries(
+				Object.keys(formFiltrosValues).map(k => {
+					const { selected } = formFiltrosValues[k];
+					const value =
+						selected != null && typeof selected == 'object'
+							? selected.value
+							: selected || null;
+					return [k, value];
+				})
+			);
+			return data;
+		},
+		fullState: () => structuredClone(formFiltrosValues),
+	};
 	useEffect(() => {
 		if (formData) {
 			const { originalOptions } = formData;
@@ -131,5 +147,5 @@ export const useFormStates = () => {
 		}
 	}, [formData, handlersFormChange]);
 
-	return { formFiltrosValues, handlersFormChange };
+	return { formFiltrosValues, handlersFormChange, getFiltosValues };
 };
