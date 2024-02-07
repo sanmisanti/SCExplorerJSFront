@@ -39,8 +39,8 @@ const Cart = () => {
 			<Table>
 				<thead>
 					<tr className='align-middle text-center'>
-						<th className='col-1'>Codigo</th>
-						<th className='col-'>Descripcion</th>
+						<th className='col-2'>Codigo</th>
+						<th className='col-9'>Descripcion</th>
 						<th className='col-1'>Eliminar</th>
 					</tr>
 				</thead>
@@ -51,7 +51,7 @@ const Cart = () => {
 								key={item.id}
 								className='align-middle text-center table-success'
 							>
-								<td>{`${item.codClase}-${item.itemCod}`}</td>
+								<td>{item.CodigoUnico}</td>
 								<td className='text-start pl-1'>{item.descripcion}</td>
 								<td>
 									<Button

@@ -10,7 +10,7 @@ const InstanciadosResultTable = ({ itemsToRender, loading, pageSize }) => {
 				<thead>
 					<tr className='align-middle text-center'>
 						<th className='col-1'>Carrito</th>
-						<th className='col-1'>Codigo</th>
+						<th className='col-2'>Codigo</th>
 						<th className='col-9'>Descripcion</th>
 						<th className='col-1'>Acciones</th>
 					</tr>
@@ -91,7 +91,7 @@ const InstanciadosResultTable = ({ itemsToRender, loading, pageSize }) => {
 												remove_shopping_cart
 											</span>
 										</td>
-										<td>{`${item.codClase}-${item.itemCod}`}</td>
+										<td>{item.CodigoUnico}</td>
 										<td className={s.descripcion}>{item.descripcion}</td>
 										<td>
 											<span className={s.edit}>

@@ -39,9 +39,9 @@ export const exportFileXLSX = async (cart) => {
 
     // Añadir los datos al archivo
     worksheet.columns = [
-        { header: '(*) Codigo', key: 'codigo', width: 10 },
+        { header: '(*) Codigo', key: 'codigo', width: 15 },
         { header: 'Observaciones', key: 'observacion', width: 20 },
-        { header: '(*) Especificaciones Tecnicas', key: 'especificacionestecnicas', width: 20 },
+        { header: 'Especificaciones Tecnicas', key: 'especificacionestecnicas', width: 20 },
         { header: '(*) Acondicionamiento', key: 'acondicionamiento', width: 20 },
         { header: '(*) Cantidad',  key: 'cantidad', width: 10 },
         { header: '(*) Precio Estimado Unitario', key: 'pue', width: 15 },
@@ -50,7 +50,7 @@ export const exportFileXLSX = async (cart) => {
 
     cart.forEach(item => {
         worksheet.addRow({
-            codigo: `${item.codClase}-${item.itemCod}`,
+            codigo: item.CodigoUnico,
             observacion: item.observacion || "",
             especificacionestecnicas: "",
             acondicionamiento: "",
@@ -120,6 +120,7 @@ export const exportFileXLSX = async (cart) => {
     // Crear un Blob a partir del ArrayBuffer
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
+    const timestamp = new Date().getTime()
     // Guardar el Blob como un archivo Excel
-    saveAs(blob, 'Items_Template.xlsx');
+    saveAs(blob,  `ItemsSolicitud-${timestamp}.xlsx`);
 }
