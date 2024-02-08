@@ -15,22 +15,20 @@ import ScrollToTop from './components/ScrollToTop.jsx';
 const App = () => {
 	return (
 		<>
-			<div style={{ minHeight: '100vh' }}>
-				<CartProvider>
-					<ClasesProvider>
-						<InstanciadosProvider>
-							<Router>
-								<TopNav />
-								<ScrollToTop />
-								<Routes>
-									<Route path='/' exact element={<ExplorerTabs />} />
-									<Route path='/cart' element={<Cart />} />
-								</Routes>
-							</Router>
-						</InstanciadosProvider>
-					</ClasesProvider>
-				</CartProvider>
-			</div>
+			<CartProvider>
+				<ClasesProvider>
+					<InstanciadosProvider>
+						<Router>
+							<TopNav />
+							<ScrollToTop />
+							<Routes>
+								<Route path='/' exact element={<ExplorerTabs />} />
+								<Route path='/cart' element={<Cart />} />
+							</Routes>
+						</Router>
+					</InstanciadosProvider>
+				</ClasesProvider>
+			</CartProvider>
 			<Footer />
 		</>
 	);
