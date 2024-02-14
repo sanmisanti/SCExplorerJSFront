@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { CartContext } from './Context/CartProvider';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { Button, Container, Table } from 'react-bootstrap';
 import { exportFileXLSX } from '../utils/Excelexport';
 
 const Cart = () => {
-	const { cart, addToCart, clearCart } = useContext(CartContext);
+	const { cart, clearCart, removeFromCart } = useContext(CartContext);
 
 	const exportFile = () => {
 		/* const cartToExport = cart.map(item => {
@@ -45,7 +45,7 @@ const Cart = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{cart.map(item => {
+					{cart.map((item, i) => {
 						return (
 							<tr
 								key={item.id}
@@ -56,7 +56,7 @@ const Cart = () => {
 								<td>
 									<Button
 										variant='danger'
-										onClick={() => addToCart(item)}
+										onClick={() => removeFromCart({ i })}
 										className='mb-2'
 									>
 										Eliminar

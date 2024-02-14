@@ -123,17 +123,25 @@ export function CartProvider({ children }) {
 	]); */
 	const [lastPage, setLastPage] = useState('genericos');
 
-	const addToCart = product => {
-		const productInCartIndex = cart.findIndex(item => item.id === product.id);
-		if (productInCartIndex >= 0) {
-			// delete array element by index
-			const newCart = [...cart];
+	const addToCart = ({ item }) => {
+		let newCart = [...cart, item];
+		setCart(newCart);
+	};
+	const setNewCantidad = ({ item, cantidadTotal }) => {
+		console.log('setNewCantidad', item, cantidadTotal);
+		let newCart = cart.filter(i => i.id != item.id);
+		newCart = [...newCart, ...Array(parseInt(cantidadTotal) || 0).fill(item)];
+		setCart(newCart);
+	};
+	const removeFromCart = ({ item, i }) => {
+		const newCart = [...cart];
+		if (i != undefined) {
+			newCart.splice(i, 1);
+		} else {
+			const productInCartIndex = cart.findIndex(prod => prod.id === item.id);
 			newCart.splice(productInCartIndex, 1);
-			setCart(newCart);
-			return;
 		}
-		const newCart = [...cart, product];
-		console.log(newCart);
+		// delete array element by index
 		setCart(newCart);
 	};
 
@@ -147,7 +155,15 @@ export function CartProvider({ children }) {
 
 	return (
 		<CartContext.Provider
-			value={{ cart, addToCart, clearCart, handlePageChange, lastPage }}
+			value={{
+				cart,
+				addToCart,
+				clearCart,
+				handlePageChange,
+				lastPage,
+				removeFromCart,
+				setNewCantidad,
+			}}
 		>
 			{children}
 		</CartContext.Provider>
