@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000/getAllCategorias';
+const baseUrl = 'http://192.168.49.13:3000/getAllCategorias';
 
 const getAllCategorias = async () => {
 	const request = axios.get(baseUrl);

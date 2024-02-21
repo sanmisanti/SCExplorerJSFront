@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://192.168.49.13:3000';
 
 export const getAllClases = async page => {
 	const url = baseUrl + `/getAllClases/${page.toString()}`;

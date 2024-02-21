@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://192.168.49.13:3000';
 
 const getAllRubros = async () => {
 	const request = axios.get(baseUrl + '/rubrosEconomicos/getAllRubros');
