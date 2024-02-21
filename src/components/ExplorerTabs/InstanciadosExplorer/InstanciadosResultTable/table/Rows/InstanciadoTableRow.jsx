@@ -74,7 +74,6 @@ const InstanciadosTableRow = ({
 												placeholder={cantidadEnCarrito}
 												type='number'
 												ref={inpRef}
-												initialValue={cantidadEnCarrito}
 												onChange={e => {
 													const value = parseInt(e.target.value);
 													if (value > 999) {
@@ -135,7 +134,7 @@ const InstanciadosTableRow = ({
 					'-'
 				)}
 			</td>
-			<td>{`${item.codClase}-${item.itemCod}`}</td>
+			<td>{`${item.CodigoUnico}`}</td>
 			<td className={s.descripcion}>{item.descripcion}</td>
 			<td>
 				<span className={s.edit}>

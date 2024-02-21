@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from '../Context/CartProvider';
-import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { Button, Container, Table } from 'react-bootstrap';
 import { exportFileXLSX } from '../../utils/Excelexport';
 import CartRow from './CartRow';
 import './Cart.css';
 import { carritoMock } from '../../mocks/carrito';
 
 const Cart = () => {
-	const { cart, addToCart, clearCart, handleSetCarrito } =
-		useContext(CartContext);
+	const { cart, clearCart, handleSetCarrito } = useContext(CartContext);
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const exportFile = () => {
@@ -38,8 +37,8 @@ const Cart = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{cart.map(item => {
-								return <CartRow key={item.id} item={item} />;
+							{cart.map((item, i) => {
+								return <CartRow key={i} item={item} i={i} />;
 							})}
 						</tbody>
 					</Table>
