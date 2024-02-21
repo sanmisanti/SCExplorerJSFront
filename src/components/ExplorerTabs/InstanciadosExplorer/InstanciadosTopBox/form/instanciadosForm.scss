@@ -39,7 +39,7 @@
 			background-color: $color_saltared;
 			color: white;
 			border-color: $color_saltared;
-			box-shadow: 4px 4px 5px 0.04rem #dee2e6a2 !important;
+			box-shadow: $box_shadow !important;
 		}
 
 		&:not(.collapsed) &:has(.collapsed) {

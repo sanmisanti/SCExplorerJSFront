@@ -1,20 +1,19 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { CartContext } from '../Context/CartProvider';
 import './Cart.css';
 
-const CartRow = ({ item }) => {
-	const { addToCart } = useContext(CartContext);
+const CartRow = ({ item, i }) => {
+	const { removeFromCart } = useContext(CartContext);
 	const [isDeleting, setIsDeleting] = useState(false);
 
-	const handleItemRemove = item => {
+	const handleItemRemove = () => {
 		setIsDeleting(true);
-		setTimeout(() => addToCart(item), 500);
+		setTimeout(() => removeFromCart({ i }), 500);
 	};
 
 	return (
 		<tr
-			key={item.id}
 			className={`align-middle text-center table-success ${
 				isDeleting ? 'fade-out' : ''
 			}`}

@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { CartContext } from '../Context/CartProvider';
 
 const ExplorerTabs = () => {
-	const { lastPage } = useContext(CartContext);
+	const { lastPage, handlePageChange } = useContext(CartContext);
 
 	return (
 		<Container className={s.container}>
@@ -16,6 +16,7 @@ const ExplorerTabs = () => {
 				defaultActiveKey={lastPage}
 				id='mainTabs'
 				className='mb-3 justify-content-end'
+				onSelect={eventKey => handlePageChange(eventKey)}
 			>
 				<Tab eventKey='genericos' title='Genéricos'>
 					<GenericosExplorerWin />
