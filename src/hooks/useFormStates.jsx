@@ -129,10 +129,17 @@ export const useFormStates = () => {
 			const data = Object.fromEntries(
 				Object.keys(formFiltrosValues).map(k => {
 					const { selected } = formFiltrosValues[k];
-					const value =
-						selected != null && typeof selected == 'object'
-							? selected.value
-							: selected || null;
+					let value;
+					if (typeof selected == 'object') {
+						if (k == 'principales' || k == 'parciales') {
+							value = parseInt(selected.label.split('-')[0]);
+						} else {
+							value = selected?.value || null;
+						}
+					} else {
+						value = selected || null;
+					}
+
 					return [k, value];
 				})
 			);
