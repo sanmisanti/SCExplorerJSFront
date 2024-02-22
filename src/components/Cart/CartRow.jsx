@@ -18,15 +18,18 @@ const CartRow = ({ item, i }) => {
 				isDeleting ? 'fade-out' : ''
 			}`}
 		>
+			<th>{i + 1}</th>
 			<td>{item.CodigoUnico}</td>
 			<td className='text-start pl-1'>{item.descripcion}</td>
 			<td>
 				<Button
 					variant='danger'
 					onClick={() => handleItemRemove(item)}
-					className='mb-2'
+					className='mb-0'
 				>
-					Eliminar
+					<span className="material-symbols-outlined d-flex">
+						delete
+					</span>
 				</Button>
 			</td>
 		</tr>
