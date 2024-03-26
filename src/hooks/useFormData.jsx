@@ -57,6 +57,10 @@ export const useFormData = () => {
 				selected: '',
 				type: 'input',
 			},
+			onlyGenericos: {
+				selected: false,
+				type: 'input',
+			},
 			rubros: {
 				selected: '',
 				type: 'select',
