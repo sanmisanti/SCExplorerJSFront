@@ -30,7 +30,7 @@ const InstanciadosForm = () => {
 	});
 
 	useEffect(() => {
-		if (formFiltrosValues) {
+		if (formFiltrosValues?.onlyGenericos.selected) {
 			getInstanciados.form();
 		}
 	}, [formFiltrosValues?.onlyGenericos.selected]);

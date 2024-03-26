@@ -9,6 +9,9 @@ import {
 import { useState, useRef, useEffect, useContext } from 'react';
 import rowStyles from './InstanciadoTableRow.module.scss';
 import { InstanciadosContext } from '../../../../../Context/InstanciadosProviders';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 const InstanciadosTableRow = ({
 	item,
 	i,
@@ -95,6 +98,7 @@ const InstanciadosTableRow = ({
 													console.log(e.target.value);
 												}}
 											/>
+
 											<Button
 												variant='secondary'
 												onClick={() => {
@@ -148,32 +152,49 @@ const InstanciadosTableRow = ({
 			<td className={s.descripcion}>{item.descripcion}</td>
 			<td>
 				<span className={s.edit}>
-					<Button
-						variant='outline-success btn-sm'
-						onClick={() => addToCart({ item })}
+					<OverlayTrigger
+						placement={'top'}
+						overlay={<Tooltip id={`tooltip-${'top'}`}>Agregar Item</Tooltip>}
 					>
-						<span className='material-symbols-outlined'>add</span>
-					</Button>
-					<Button
-						variant={`${
-							cantidadEnCarrito <= 0 ? 'outline-secondary' : 'outline-danger'
-						} btn-sm `}
-						onClick={() => {
-							removeFromCart({ item });
-						}}
-						disabled={cantidadEnCarrito <= 0}
-					>
-						<span className='material-symbols-outlined'>
-							{cantidadEnCarrito > 1 ? 'remove' : 'delete'}
-						</span>
-					</Button>
-					{item.CodigoUnico.slice(-1) === '0' ? (
 						<Button
-							variant='outline-primary btn-sm'
-							onClick={() => setGenericCode({ item })}
+							variant='outline-success btn-sm'
+							onClick={() => addToCart({ item })}
 						>
-							<span className='material-symbols-outlined'>list_alt</span>
+							<span className='material-symbols-outlined'>add</span>
 						</Button>
+					</OverlayTrigger>
+					<OverlayTrigger
+						placement={'top'}
+						overlay={<Tooltip id={`tooltip-${'top'}`}>Eliminar Item</Tooltip>}
+					>
+						<Button
+							variant={`${
+								cantidadEnCarrito <= 0 ? 'outline-secondary' : 'outline-danger'
+							} btn-sm `}
+							onClick={() => {
+								removeFromCart({ item });
+							}}
+							disabled={cantidadEnCarrito <= 0}
+						>
+							<span className='material-symbols-outlined'>
+								{cantidadEnCarrito > 1 ? 'remove' : 'delete'}
+							</span>
+						</Button>
+					</OverlayTrigger>
+					{item.CodigoUnico.slice(-2) === '.0' ? (
+						<OverlayTrigger
+							placement={'top'}
+							overlay={
+								<Tooltip id={`tooltip-${'top'}`}>Instanciar genérico</Tooltip>
+							}
+						>
+							<Button
+								variant='outline-primary btn-sm'
+								onClick={() => setGenericCode({ item })}
+							>
+								<span className='material-symbols-outlined'>list_alt</span>
+							</Button>
+						</OverlayTrigger>
 					) : null}
 				</span>
 			</td>
