@@ -6,8 +6,9 @@ import {
 	Card,
 	Collapse,
 } from 'react-bootstrap';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import rowStyles from './InstanciadoTableRow.module.scss';
+import { InstanciadosContext } from '../../../../../Context/InstanciadosProviders';
 const InstanciadosTableRow = ({
 	item,
 	i,
@@ -18,6 +19,8 @@ const InstanciadosTableRow = ({
 	setNewCantidad,
 	s,
 }) => {
+	const { handlersFormChange, getFichaClaseHeaders } =
+		useContext(InstanciadosContext);
 	const inpRef = useRef();
 	const [show, setShow] = useState(false);
 	const handleClose = () => setShow(false);
@@ -39,6 +42,13 @@ const InstanciadosTableRow = ({
 		return () =>
 			window.removeEventListener('click', handleCloseWhenClickOutside);
 	});
+
+	const setGenericCode = ({ item }) => {
+		console.log(item);
+		const data = { target: { name: 'claseCod', value: item.codClase } };
+		handlersFormChange.inputs(data);
+		getFichaClaseHeaders(data.target.value);
+	};
 
 	return (
 		<tr key={i} className={`${style} ${s.row}`}>
@@ -157,6 +167,14 @@ const InstanciadosTableRow = ({
 							{cantidadEnCarrito > 1 ? 'remove' : 'delete'}
 						</span>
 					</Button>
+					{item.CodigoUnico.slice(-1) === '0' ? (
+						<Button
+							variant='outline-primary btn-sm'
+							onClick={() => setGenericCode({ item })}
+						>
+							<span className='material-symbols-outlined'>list_alt</span>
+						</Button>
+					) : null}
 				</span>
 			</td>
 		</tr>

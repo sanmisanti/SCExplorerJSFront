@@ -29,6 +29,12 @@ const InstanciadosForm = () => {
 		cat: null,
 	});
 
+	useEffect(() => {
+		if (formFiltrosValues) {
+			getInstanciados.form();
+		}
+	}, [formFiltrosValues?.onlyGenericos.selected]);
+
 	const handleAcordions = useCallback(
 		key => {
 			const newKeys = Object.fromEntries(
@@ -307,7 +313,7 @@ const InstanciadosForm = () => {
 					</Button>
 				</Col>
 				<Col>
-					<Form.Check // prettier-ignore
+					<Form.Check
 						type='switch'
 						id='onlyGenericos'
 						label='Buscar solo genéricos'
