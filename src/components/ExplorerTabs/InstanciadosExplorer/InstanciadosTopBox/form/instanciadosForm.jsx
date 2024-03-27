@@ -320,18 +320,13 @@ const InstanciadosForm = () => {
 						type='switch'
 						id='onlyGenericos'
 						label='Buscar solo genéricos'
-						checked={formFiltrosValues.onlyGenericos.selected}
+						checked={formFiltrosValues?.onlyGenericos.selected || false}
 						onChange={event => {
-							Object.keys(formFiltrosValues).every(key => {
-								if (formFiltrosValues[key].selected) {
-									handlersFormChange.inputs({
-										target: {
-											name: 'onlyGenericos',
-											value: event.target.checked,
-										},
-									});
-									return false;
-								}
+							handlersFormChange.inputs({
+								target: {
+									name: 'onlyGenericos',
+									value: event.target.checked,
+								},
 							});
 						}}
 					/>

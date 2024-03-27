@@ -55,17 +55,18 @@ const InstanciadosTableRow = ({
 
 	useEffect(() => {
 		if (formFiltrosValues.claseCod.selected) {
-			filtrosValuesChangeHandlers.get(fichaHeaders);
+			getFichaClaseHeaders(fichaHeaders.claseCod);
 		}
-	}, [fichaHeaders?.claseCod]);
+	}, [formFiltrosValues?.claseCod.selected]);
 
 	const handleGenericCode = ({ item }) => {
 		window.scrollTo(0, { behavior: 'smooth' });
 
 		const data = { target: { name: 'claseCod', value: item.codClase } };
-		handlersFormChange.inputs(data);
-		getFichaClaseHeaders(data.target.value);
-		filtrosValuesChangeHandlers.reset();
+		handlersFormChange.inputs(data); // Cambia el estado complejo
+		filtrosValuesChangeHandlers.get(fichaHeaders); // Valores posibles para las props de FICHA
+
+		/* filtrosValuesChangeHandlers.reset(); */
 	};
 
 	return (
