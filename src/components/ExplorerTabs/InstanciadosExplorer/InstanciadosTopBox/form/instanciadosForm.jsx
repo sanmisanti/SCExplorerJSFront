@@ -30,7 +30,10 @@ const InstanciadosForm = () => {
 	});
 
 	useEffect(() => {
-		if (formFiltrosValues?.onlyGenericos.selected) {
+		if (
+			formFiltrosValues?.onlyGenericos.selected != null &&
+			formFiltrosValues?.onlyGenericos.selected != undefined
+		) {
 			getInstanciados.form();
 		}
 	}, [formFiltrosValues?.onlyGenericos.selected]);
@@ -319,8 +322,16 @@ const InstanciadosForm = () => {
 						label='Buscar solo genéricos'
 						checked={formFiltrosValues.onlyGenericos.selected}
 						onChange={event => {
-							handlersFormChange.inputs({
-								target: { name: 'onlyGenericos', value: event.target.checked },
+							Object.keys(formFiltrosValues).every(key => {
+								if (formFiltrosValues[key].selected) {
+									handlersFormChange.inputs({
+										target: {
+											name: 'onlyGenericos',
+											value: event.target.checked,
+										},
+									});
+									return false;
+								}
 							});
 						}}
 					/>

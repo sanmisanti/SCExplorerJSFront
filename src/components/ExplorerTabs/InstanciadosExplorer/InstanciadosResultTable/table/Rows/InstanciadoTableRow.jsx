@@ -22,10 +22,17 @@ const InstanciadosTableRow = ({
 	setNewCantidad,
 	s,
 }) => {
-	const { handlersFormChange, getFichaClaseHeaders } =
-		useContext(InstanciadosContext);
+	const {
+		handlersFormChange,
+		getFichaClaseHeaders,
+		filtrosValuesChangeHandlers,
+		fichaFiltrosHeadersValues,
+		formFiltrosValues,
+	} = useContext(InstanciadosContext);
 	const inpRef = useRef();
 	const [show, setShow] = useState(false);
+	const { fichaHeaders } = fichaFiltrosHeadersValues;
+
 	const handleClose = () => setShow(false);
 	// const handleShow = () => setShow(true);
 	const toggleShow = () => setShow(!show);
@@ -46,11 +53,19 @@ const InstanciadosTableRow = ({
 			window.removeEventListener('click', handleCloseWhenClickOutside);
 	});
 
-	const setGenericCode = ({ item }) => {
-		console.log(item);
+	useEffect(() => {
+		if (formFiltrosValues.claseCod.selected) {
+			filtrosValuesChangeHandlers.get(fichaHeaders);
+		}
+	}, [fichaHeaders?.claseCod]);
+
+	const handleGenericCode = ({ item }) => {
+		window.scrollTo(0, { behavior: 'smooth' });
+
 		const data = { target: { name: 'claseCod', value: item.codClase } };
 		handlersFormChange.inputs(data);
 		getFichaClaseHeaders(data.target.value);
+		filtrosValuesChangeHandlers.reset();
 	};
 
 	return (
@@ -184,13 +199,11 @@ const InstanciadosTableRow = ({
 					{item.CodigoUnico.slice(-2) === '.0' ? (
 						<OverlayTrigger
 							placement={'top'}
-							overlay={
-								<Tooltip id={`tooltip-${'top'}`}>Instanciar genérico</Tooltip>
-							}
+							overlay={<Tooltip id={`tooltip-${'top'}`}>Cargar ficha</Tooltip>}
 						>
 							<Button
 								variant='outline-primary btn-sm'
-								onClick={() => setGenericCode({ item })}
+								onClick={() => handleGenericCode({ item })}
 							>
 								<span className='material-symbols-outlined'>list_alt</span>
 							</Button>
