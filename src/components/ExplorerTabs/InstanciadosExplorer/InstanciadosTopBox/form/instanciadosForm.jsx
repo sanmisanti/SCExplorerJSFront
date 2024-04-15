@@ -29,6 +29,15 @@ const InstanciadosForm = () => {
 		cat: null,
 	});
 
+	useEffect(() => {
+		if (
+			formFiltrosValues?.onlyGenericos.selected != null &&
+			formFiltrosValues?.onlyGenericos.selected != undefined
+		) {
+			getInstanciados.form();
+		}
+	}, [formFiltrosValues?.onlyGenericos.selected]);
+
 	const handleAcordions = useCallback(
 		key => {
 			const newKeys = Object.fromEntries(
@@ -295,14 +304,34 @@ const InstanciadosForm = () => {
 				</Form.Group>
 			</Stack>
 			<hr className='separador' />
-			<Button
-				className='mt-0'
-				variant='primary'
-				type='button'
-				onClick={() => getInstanciados.form()}
-			>
-				Buscar Items
-			</Button>
+			<Row className='d-flex align-items-center'>
+				<Col sm={3}>
+					<Button
+						className='mt-0'
+						variant='primary'
+						type='button'
+						onClick={() => getInstanciados.form()}
+					>
+						Buscar Items
+					</Button>
+				</Col>
+				<Col>
+					<Form.Check
+						type='switch'
+						id='onlyGenericos'
+						label='Buscar solo genéricos'
+						checked={formFiltrosValues?.onlyGenericos.selected || false}
+						onChange={event => {
+							handlersFormChange.inputs({
+								target: {
+									name: 'onlyGenericos',
+									value: event.target.checked,
+								},
+							});
+						}}
+					/>
+				</Col>
+			</Row>
 		</Fragment>
 	);
 };

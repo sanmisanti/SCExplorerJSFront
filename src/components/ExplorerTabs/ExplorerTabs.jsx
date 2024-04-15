@@ -13,14 +13,14 @@ const ExplorerTabs = () => {
 	return (
 		<Container className={s.container}>
 			<Tabs
-				defaultActiveKey={lastPage}
+				defaultActiveKey={'particulares'}
 				id='mainTabs'
 				className='mb-3 justify-content-end'
 				onSelect={eventKey => handlePageChange(eventKey)}
 			>
-				<Tab eventKey='genericos' title='Genéricos'>
+				{/* <Tab eventKey='genericos' title='Genéricos'>
 					<GenericosExplorerWin />
-				</Tab>
+				</Tab> */}
 				<Tab eventKey='particulares' title='Particulares'>
 					<InstanciadosExplorerWin />
 				</Tab>

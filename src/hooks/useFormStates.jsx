@@ -115,7 +115,10 @@ export const useFormStates = () => {
 			},
 			inputs: ({ target }) => {
 				let { name, value } = target;
-				value = name === 'descripcion' ? value : parseInt(value, 10);
+				value =
+					name === 'descripcion' || name === 'onlyGenericos'
+						? value
+						: parseInt(value, 10);
 				dispatch({
 					type: ACTIONS_TYPE.INPUT,
 					payload: { name, value },
