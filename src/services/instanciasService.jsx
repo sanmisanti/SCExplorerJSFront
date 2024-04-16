@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const baseUrl = 'http://127.0.0.1:3000/';
+const baseUrl = import.meta.env.VITE_BASE_URL_BACKEND
+
+console.log(baseUrl)
 
 export const getInstanciadosByClaseCod = async claseCod => {
 	const url = encodeURI(baseUrl + 'getInstanciadosByClase/' + claseCod);

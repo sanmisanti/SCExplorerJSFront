@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = import.meta.env.VITE_BASE_URL_BACKEND;
 
 export const getAllClases = async page => {
 	const url = baseUrl + `/getAllClases/${page.toString()}`;

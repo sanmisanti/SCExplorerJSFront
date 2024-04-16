@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000/getOgDetalles';
+const baseUrl = `${import.meta.env.VITE_BASE_URL_BACKEND}getOgDetalles`;
 
 const getAllogDetalle = async () => {
 	const request = axios.get(baseUrl);

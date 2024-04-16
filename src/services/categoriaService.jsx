@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000/getAllCategorias';
+const baseUrl = `${import.meta.env.VITE_BASE_URL_BACKEND}getAllCategorias`
 
 const getAllCategorias = async () => {
 	const request = axios.get(baseUrl);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3000/getAllFormData';
+const baseUrl = `${import.meta.env.VITE_BASE_URL_BACKEND}getAllFormData`
 
 export const getFormData = async () => {
 	const request = axios.get(baseUrl);
